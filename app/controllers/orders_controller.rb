@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_order, only: [:show, :confirmation, :tracking, :cancel]
+  before_action :set_order, only: [:show, :confirmation, :tracking, :cancel, :confirm]
   before_action :set_laundromat, only: [:new, :create]
 
   def index
@@ -16,11 +16,28 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = current_user.orders.build(order_params)
+    @order = current_user.orders.build
     @order.laundromat = @laundromat
 
+    item_params = order_params[:order_items_attributes]&.values || []
+    total = 0
+
+    item_params.each do |item|
+      price_per_unit = price_for(item[:item_type])
+      quantity = item[:quantity].to_i
+      total += price_per_unit * quantity
+
+      @order.order_items.build(
+        item_type: item[:item_type],
+        quantity: quantity,
+        price: price_per_unit * quantity
+      )
+    end
+
+    @order.total_price = total
+    @order.status = "pending"
+
     if @order.save
-      @order.confirm! # Explicit confirmation if needed
       redirect_to confirmation_order_path(@order), notice: 'Order created!'
     else
       flash.now[:alert] = "Failed: #{@order.errors.full_messages.to_sentence}"
@@ -29,7 +46,16 @@ class OrdersController < ApplicationController
   end
 
   def confirmation
-    redirect_to @order, alert: 'Invalid order status' unless @order.confirmed?
+    redirect_to @order, alert: 'Invalid order status' unless @order.status == "confirmed"
+  end
+
+  def confirm
+    if current_user == @order.laundromat.owner && @order.status == "pending"
+      @order.update(status: "confirmed")
+      redirect_to @order, notice: "Order confirmed!"
+    else
+      redirect_to @order, alert: "Not authorized or already confirmed"
+    end
   end
 
   def tracking
@@ -38,7 +64,7 @@ class OrdersController < ApplicationController
 
   def cancel
     if @order.may_cancel?
-      @order.update(status: :cancelled) # Explicit status update
+      @order.update(status: :cancelled)
       redirect_to @order, notice: 'Order was successfully cancelled.'
     else
       redirect_to @order, alert: "Cannot cancel order in #{@order.status} state"
@@ -63,9 +89,22 @@ class OrdersController < ApplicationController
         :id,
         :item_type,
         :quantity,
-        :price,
         :_destroy
       ]
     )
+  end
+
+  def price_for(item_type)
+    fixed_prices = {
+      "Jeans" => 10,
+      "Underwear" => 5,
+      "Boxers" => 5,
+      "Dress Pants" => 15,
+      "Chinos" => 12,
+      "Briefs" => 5,
+      "Shorts" => 8,
+      "Cargo Pants" => 14
+    }
+    fixed_prices[item_type] || 0
   end
 end

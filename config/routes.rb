@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       get :confirmation
       get :order_trackings
       patch :cancel
+      patch :confirm
     end
   end
 
