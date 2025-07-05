@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  get 'orders/index'
+  get 'orders/show'
+  get 'orders/new'
+  get 'orders/create'
+  get 'orders/confirmation'
+  get 'orders/tracking'
+  get 'orders/cancel'
+  get 'laundromats/index'
+  get 'laundromats/show'
   devise_for :users
   root to: "pages#home"
 
