@@ -1,12 +1,30 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: "pages#home"
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  # Laundromats: browse, filter and show details
+  resources :laundromats, only: [:index, :show] do
+    # Orders: new and create under a laundromat
+    resources :orders, only: [:new, :create]
+
+    # Reviews: new and create under a laundromat
+    resources :reviews, only: [:new]
+
+    # Chats: show and create (chatroom)
+    resources :chats, only: [:show, :create]
+  end
+
+  # Orders: additional actions outside nesting
+  resources :orders, only: [] do
+    member do
+      get :confirmation
+      get :order_trackings
+      patch :cancel
+    end
+  end
+
+  resources :reviews, only: [:create]
 end
