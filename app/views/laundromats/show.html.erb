@@ -1,2 +1,10 @@
-<h1>Laundromats#show</h1>
+<!--<h1>Laundromats#show</h1>
 <p>Find me in app/views/laundromats/show.html.erb</p>
+-->
+
+<h2><%= @laundromat.name %></h2>
+<p><%= @laundromat.address %></p>
+<p><%= @laundromat.phone_number %></p>
+
+<!--Booking Button-->
+<%= link_to "Book a Laundry Pickup", new_laundromat_order_path(@laundromat), class: "btn btn-success mt-3" %>

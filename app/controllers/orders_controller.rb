@@ -17,7 +17,17 @@ class OrdersController < ApplicationController
 
   def create
     @order = current_user.orders.build
-    @order.laundromat = @laundromat
+    @order.assign_attributes(
+      laundromat: @laundromat,
+      pickup_time: order_params[:pickup_time],
+      delivery_time: order_params[:delivery_time],
+      status: "pending"
+    )
+
+    unless @order.pickup_time.present? && @order.delivery_time.present?
+      flash.now[:alert] = "Pickup and delivery times must be selected."
+      render :new and return
+    end
 
     item_params = order_params[:order_items_attributes]&.values || []
     total = 0
@@ -35,7 +45,6 @@ class OrdersController < ApplicationController
     end
 
     @order.total_price = total
-    @order.status = "pending"
 
     if @order.save
       redirect_to confirmation_order_path(@order), notice: 'Order created!'
