@@ -1,40 +1,35 @@
 Rails.application.routes.draw do
-  get 'orders/index'
-  get 'orders/show'
-  get 'orders/new'
-  get 'orders/create'
-  get 'orders/confirmation'
-  get 'orders/tracking'
-  get 'orders/cancel'
-  get 'laundromats/index'
-  get 'laundromats/show'
+  # Devise authentication
   devise_for :users
+
+  # Home page
   root to: "pages#home"
 
-  # Health check route
+  # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Laundromats: browse, filter and show details
   resources :laundromats, only: [:index, :show] do
-    # Orders: new and create under a laundromat
+    # Nested orders: for booking a laundromat
     resources :orders, only: [:new, :create]
 
-    # Reviews: new and create under a laundromat
+    # Nested reviews: new review under laundromat
     resources :reviews, only: [:new]
 
-    # Chats: show and create (chatroom)
+    # Chats between user and laundromat
     resources :chats, only: [:show, :create]
   end
 
-  # Orders: additional actions outside nesting
-  resources :orders, only: [] do
+  # Orders: outside nesting for confirmation, tracking, cancel, etc.
+  resources :orders, only: [:index, :show] do
     member do
       get :confirmation
-      get :order_trackings
+      get :tracking  # was :order_trackings, renamed for clarity
       patch :cancel
       patch :confirm
     end
   end
 
+  # Reviews create action outside nesting
   resources :reviews, only: [:create]
 end

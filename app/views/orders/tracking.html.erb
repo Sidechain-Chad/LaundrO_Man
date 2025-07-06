@@ -1,2 +1,18 @@
-<h1>Orders#tracking</h1>
+<!--<h1>Orders#tracking</h1>
 <p>Find me in app/views/orders/tracking.html.erb</p>
+-->
+
+<h1>Order Tracking</h1>
+
+<p><strong>Status:</strong> <%= @order.status.capitalize %></p>
+
+<ul class="list-group mt-3">
+  <% @tracking_updates.each do |update| %>
+    <li class="list-group-item">
+      <strong><%= update.status.titleize %>:</strong>
+      <%= update.notes %> - <%= l(update.created_at, format: :short) %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Back to Order", order_path(@order), class: "btn btn-sm btn-secondary mt-3" %>

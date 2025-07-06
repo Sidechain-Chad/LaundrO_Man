@@ -1,2 +1,13 @@
-<h1>Orders#confirmation</h1>
+<!--<h1>Orders#confirmation</h1>
 <p>Find me in app/views/orders/confirmation.html.erb</p>
+-->
+
+<h1>Order Confirmed!</h1>
+
+<p>Your order is pending confirmation from <%= @order.laundromat.name %>.</p>
+
+<p><strong>Pickup:</strong> <%= l(@order.pickup_time, format: :short) %></p>
+<p><strong>Delivery:</strong> <%= l(@order.delivery_time, format: :short) %></p>
+
+<%= link_to "Track Order", tracking_order_path(@order), class: "btn btn-sm btn-info" %>
+<%= link_to "Back to My Orders", orders_path, class: "btn btn-sm btn-secondary" %>
