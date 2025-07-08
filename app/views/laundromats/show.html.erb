@@ -1,3 +1,9 @@
 <h2><%= @laundromat.name %></h2>
 <p><%= @laundromat.address %></p>
-
+<p><strong>Reviews</strong></p>
+<ul class="list-group">
+  <% @laundromat.reviews.each do |review| %>
+    <li class="list-group-item"><%= review.content %></li>
+  <% end %>
+</ul>
+<br>
