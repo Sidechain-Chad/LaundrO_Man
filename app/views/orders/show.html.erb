@@ -1,0 +1,35 @@
+<!--<h1>Orders#show</h1>
+<p>Find me in app/views/orders/show.html.erb</p>
+-->
+
+<h1>Order ##<%= @order.id %></h1>
+
+<p><strong>Status:</strong> <%= @order.status.capitalize %></p>
+<p><strong>Laundromat:</strong> <%= @order.laundromat.name %></p>
+<p><strong>Pickup Time:</strong> <%= l(@order.pickup_time, format: :short) %></p>
+<p><strong>Delivery Time:</strong> <%= l(@order.delivery_time, format: :short) %></p>
+<p><strong>Total Price:</strong> R<%= @order.total_price %></p>
+
+<h2>Items</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Item Type</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.item_type %></td>
+        <td><%= item.quantity %></td>
+        <td>R<%= item.price %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Track Order", tracking_order_path(@order), class: "btn btn-sm btn-info" %>
+<%= link_to "Back to Orders", orders_path, class: "btn btn-sm btn-secondary" %>
+
