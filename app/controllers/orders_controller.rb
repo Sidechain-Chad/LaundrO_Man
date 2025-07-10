@@ -8,6 +8,8 @@ class OrdersController < ApplicationController
   end
 
   def show
+    @order = Order.find(params[:id])
+    @message = Message.new
   end
 
   def new
@@ -16,6 +18,9 @@ class OrdersController < ApplicationController
   end
 
   def create
+    @laundromat = Laundromat.find(params[:restaurant_id])
+    @order = Order.new(order_params)
+    @order.laundromat = @laundromat
     @order = current_user.orders.build
     @order.assign_attributes(
       laundromat: @laundromat,
@@ -52,6 +57,7 @@ class OrdersController < ApplicationController
       flash.now[:alert] = "Failed: #{@order.errors.full_messages.to_sentence}"
       render :new, status: :unprocessable_entity
     end
+
   end
 
   def confirmation

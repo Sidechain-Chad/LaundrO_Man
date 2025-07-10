@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :reviews, only: [:new]
 
     # Chats between user and laundromat
-    resources :chats, only: [:show, :create]
+    resources :messages, only: [:show, :create]
   end
 
   # Orders: outside nesting for confirmation, tracking, cancel, etc.
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       patch :confirm
     end
   end
+
 
   # Reviews create action outside nesting
   resources :reviews, only: [:create]
