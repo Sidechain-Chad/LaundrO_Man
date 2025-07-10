@@ -1,2 +1,68 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<%# The main container for the page content %>
+<div class="page-container">
+
+  <%# HERO SECTION: Split layout with logo on the left and text on the right %>
+  <section class="hero-section">
+    <div class="hero-container">
+      <div class="hero-image">
+        <%= image_tag "laundryman_logo.png", alt: "LaundryMan Logo" %>
+      </div>
+      <div class="hero-content">
+        <h1>Your One-Stop Laundry Solution</h1>
+        <p>Fresh clothes, easy living. Schedule a pickup in minutes.</p>
+        <a href="#" class="btn btn-primary">Quick Service</a>
+      </div>
+    </div>
+  </section>
+
+  <%# Our Signature Service: Clean, numbered steps %>
+  <section class="how-it-works">
+    <div class="container">
+      <h2>Our Signature Service</h2>
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Place Order</h3>
+          <p>Select items and schedule your pickup.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Pickup</h3>
+          <p>Our driver collects your items at your convenience.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Clean & Care</h3>
+          <p>We provide a professional, high-quality clean.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>Delivery</h3>
+          <p>Fresh, clean clothes delivered right to your door.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# LAUNDROMATS ON OFFER: Modern card layout %>
+  <section class="laundromat-list">
+    <div class="container">
+      <h2>Laundromats Near Me</h2>
+      <div class="laundromat-grid">
+        <div class="laundromat-card">
+          <h3>Quick Wash Laundromat</h3>
+          <p>123 Main St, Cape Town</p>
+        </div>
+        <div class="laundromat-card">
+          <h3>Bubble & Clean</h3>
+          <p>456 Oak Ave, Claremont</p>
+        </div>
+        <div class="laundromat-card">
+          <h3>Fresh Spin Laundry</h3>
+          <p>789 Fire Rd, Rondebosch</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
