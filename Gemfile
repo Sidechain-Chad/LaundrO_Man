@@ -25,6 +25,8 @@ gem "stimulus-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
+# create fakers for the seeds.rb
+gem "faker"
 
 gem "faker"
 
