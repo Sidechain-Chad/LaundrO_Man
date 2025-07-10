@@ -18,9 +18,9 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @laundromat = Laundromat.find(params[:restaurant_id])
-    @order = Order.new(order_params)
+    @laundromat = Laundromat.find(params[:laundromat_id])
     @order.laundromat = @laundromat
+    @order = Order.new(order_params)
     @order = current_user.orders.build
     @order.assign_attributes(
       laundromat: @laundromat,

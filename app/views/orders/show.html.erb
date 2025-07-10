@@ -42,7 +42,13 @@
 </div>
 
 <%= simple_form_for [@order, @message],
-  html: {class: "d-flex",
-         data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }} do |f|
+  html: {class: "d-flex"} do |f|
 %>
-</div>
+  <% other_user = current_user == @order.user ? @order.user : @order.user %>
+  <%= f.input :content,
+    label: false,
+    placeholder: "Message #{other_user.first_name}",
+    wrapper_html: {class: "flex-grow-1"}
+  %>
+  <%= f.submit "Send", class: "btn btn-primary mb-3" %>
+<% end %>

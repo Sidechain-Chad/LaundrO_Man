@@ -19,6 +19,9 @@ Rails.application.routes.draw do
     # Chats between user and laundromat
     resources :messages, only: [:show, :create]
   end
+  resources :orders do
+    resources :messages, only: [:create]
+  end
 
   # Orders: outside nesting for confirmation, tracking, cancel, etc.
   resources :orders, only: [:index, :show] do
