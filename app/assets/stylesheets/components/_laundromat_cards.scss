@@ -1,0 +1,44 @@
+// app/assets/stylesheets/components/_laundromat_cards.scss
+.laundromat-list {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+  text-align: center;
+
+  h2 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 60px;
+  }
+}
+
+.laundromat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); // Creates a 3-column grid
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.laundromat-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); // Subtle shadow
+  text-align: left;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px); // Lifts the card on hover
+  }
+
+  h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #6c757d;
+    font-size: 16px;
+  }
+}

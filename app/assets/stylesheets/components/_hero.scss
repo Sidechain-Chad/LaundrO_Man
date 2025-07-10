@@ -1,0 +1,41 @@
+
+// app/assets/stylesheets/components/_hero.scss
+.hero-section {
+  background-color: #fadb74; // A light, clean background color
+  padding: 80px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.hero-image {
+  flex-shrink: 0; // Prevents the image from shrinking
+  img {
+    max-width: 300px; // Controls the size of your logo
+    height: auto;
+  }
+}
+
+.hero-content {
+  text-align: left;
+  h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  p {
+    font-size: 20px;
+    color: #6c757d;
+    margin-bottom: 30px;
+  }
+}
