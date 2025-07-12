@@ -10,27 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_08_173753) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_12_121647) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "chats", force: :cascade do |t|
-    t.string "username"
-    t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.float "latitude"
-    t.float "longitude"
-  end
 
   create_table "laundromats", force: :cascade do |t|
     t.string "name"
     t.string "address"
     t.string "phone_number"
-    t.bigint "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["owner_id"], name: "index_laundromats_on_owner_id"
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_laundromats_on_user_id"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -91,7 +82,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_08_173753) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "laundromats", "users", column: "owner_id"
+  add_foreign_key "laundromats", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_trackings", "orders"
   add_foreign_key "orders", "laundromats"
