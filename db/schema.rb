@@ -10,85 +10,71 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-puts "🌱 Cleaning database..."
-Message.delete_all
-OrderTracking.delete_all
-OrderItem.delete_all
-Order.delete_all
-Laundromat.delete_all
-User.delete_all
+ActiveRecord::Schema[7.1].define(version: 2025_07_05_100034) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
-puts "👤 Creating users..."
-users = 3.times.map do |i|
-  User.create!(
-    email: "user#{i + 1}@example.com",
-    encrypted_password: "password", # adjust if using Devise
-    first_name: "User#{i + 1}",
-    last_name: "Test",
-    address: "123 Test Street #{i + 1}",
-    role: 0 # assuming 0 = regular user
-  )
-end
-
-owner = User.create!(
-  email: "owner@example.com",
-  encrypted_password: "password",
-  first_name: "Owner",
-  last_name: "Laundro",
-  address: "456 Laundro Lane",
-  role: 1 # assuming 1 = owner/admin
-)
-
-puts "🧺 Creating laundromats..."
-laundromats = 2.times.map do |i|
-  Laundromat.create!(
-    name: "LaundroSpot #{i + 1}",
-    address: "Area #{i + 1}",
-    phone_number: "555-000#{i + 1}",
-    owner_id: owner.id
-  )
-end
-
-puts "📦 Creating orders..."
-orders = 5.times.map do
-  Order.create!(
-    user: users.sample,
-    laundromat: laundromats.sample,
-    pickup_time: Time.now + rand(1..3).days,
-    delivery_time: Time.now + rand(4..6).days,
-    status: ["pending", "in_progress", "delivered"].sample,
-    total_price: rand(50.0..150.0).round(2)
-  )
-end
-
-puts "🧴 Adding order items..."
-orders.each do |order|
-  2.times do
-    OrderItem.create!(
-      order: order,
-      item_type: ["Shirt", "Pants", "Blanket", "Towel"].sample,
-      quantity: rand(1..5),
-      price: rand(10.0..30.0).round(2)
-    )
+  create_table "laundromats", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "phone_number"
+    t.bigint "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_laundromats_on_owner_id"
   end
-end
 
-puts "🚚 Adding order tracking info..."
-orders.each do |order|
-  OrderTracking.create!(
-    order: order,
-    status: ["picked_up", "washing", "ready", "delivered"].sample,
-    notes: "Order update at #{Time.now}"
-  )
-end
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.string "item_type"
+    t.integer "quantity"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
 
-puts "💬 Creating messages..."
-orders.each do |order|
-  Message.create!(
-    content: "Question about order ##{order.id}",
-    user: order.user,
-    order: order
-  )
-end
+  create_table "order_trackings", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.string "status"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_trackings_on_order_id"
+  end
 
-puts "✅ Seeding complete!"
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "laundromat_id", null: false
+    t.datetime "pickup_time"
+    t.datetime "delivery_time"
+    t.string "status"
+    t.decimal "total_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["laundromat_id"], name: "index_orders_on_laundromat_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "address"
+    t.integer "role"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  add_foreign_key "laundromats", "users", column: "owner_id"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_trackings", "orders"
+  add_foreign_key "orders", "laundromats"
+  add_foreign_key "orders", "users"
+end

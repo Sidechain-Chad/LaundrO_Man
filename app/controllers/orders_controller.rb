@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_order, only: [:show, :confirmation, :tracking, :cancel, :confirm]
+  # before_action :authenticate_user!
+  # before_action :set_order, only: [:show, :confirmation, :tracking, :cancel, :confirm]
   before_action :set_laundromat, only: [:new, :create]
 
   def index

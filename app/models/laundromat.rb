@@ -1,5 +1,5 @@
 class Laundromat < ApplicationRecord
-  # belongs_to :owner
+  # belongs_to :user
 
   has_many :orders, dependent: :destroy
 end
