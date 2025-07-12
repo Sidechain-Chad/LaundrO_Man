@@ -50,7 +50,7 @@ User.create!(
 # Owners (3)
 owners = 3.times.map do |i|
   User.create!(
-    email: "boner#{i+1}@example.com",
+    email: "owner#{i+1}@example.com",
     password: "password",
     first_name: SA_FIRST_NAMES.sample,
     last_name: SA_NAMES.sample,
@@ -74,7 +74,7 @@ end
 # Customers (10)
 customers = 10.times.map do |i|
   User.create!(
-    email: "stomer#{i+1}@example.com",
+    email: "customer#{i+1}@example.com",
     password: "password",
     first_name: SA_FIRST_NAMES.sample,
     last_name: SA_NAMES.sample,
