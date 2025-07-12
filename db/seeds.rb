@@ -93,7 +93,7 @@ laundromats = [
     name: name,
     address: "#{rand(1..100)} #{['Bree', 'Long'].sample} St, #{CAPE_TOWN_AREAS.sample}, 8000",
     phone_number: "+27 #{rand(60..89)} #{rand(100..999)} #{rand(1000..9999)}",
-    # owner: owners.sample
+    user: owners.sample
   )
 end
 
