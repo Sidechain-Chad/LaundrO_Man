@@ -1,6 +1,12 @@
-<ul>
-<h1>Pick a laundromat</h1>
-  <% @laundromats.each do |laundromat| %>
-    <li><%= link_to laundromat.name, laundromat_path(laundromat) %></li>
-  <% end %>
-</ul>
+<h1>All Laundromats</h1>
+
+<% @laundromats.each do |laundromat| %>
+  <div>
+    <h3><%= laundromat.name %></h3>
+    <p><%= laundromat.address %></p>
+
+    <%= link_to "View Details", laundromat_path(laundromat) %><br>
+    <%= link_to "Book This Laundry", new_laundromat_order_path(laundromat) %>
+  </div>
+  <hr>
+<% end %>

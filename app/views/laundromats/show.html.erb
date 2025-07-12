@@ -5,6 +5,7 @@
   <% @laundromat.reviews.each do |review| %>
     <li class="list-group-item"><%= review.content %></li>
   <% end %>
+  <%= link_to "Book This Laundry", new_laundromat_order_path(@laundromat) %><br>
   <%= link_to "Back to all laundromats", laundromats_path %>
 </ul>
 <br>

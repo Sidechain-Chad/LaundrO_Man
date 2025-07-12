@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get 'orders/index'
+  get 'orders/show'
+  get 'orders/new'
+  get 'orders/create'
+  get 'orders/confirmation'
+  get 'orders/cancel'
+  get 'orders/order_trackings'
   get 'reviews/new'
   devise_for :users
   root to: "pages#home"
@@ -19,7 +26,7 @@ Rails.application.routes.draw do
   end
 
   # Orders: additional actions outside nesting
-  resources :orders, only: [] do
+  resources :orders, only: [:index, :show] do
     member do
       get :confirmation
       get :order_trackings

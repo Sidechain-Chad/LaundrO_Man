@@ -1,0 +1,40 @@
+<!--<h1>Orders#new</h1>
+<p>Find me in app/views/orders/new.html.erb</p>
+-->
+
+<h1>New Order</h1>
+
+<%= form_with model: [@laundromat, @order] do |f| %>
+  <div>
+    <%= f.label :pickup_time %><br>
+    <%= f.datetime_select :pickup_time %>
+  </div>
+
+  <div>
+    <%= f.label :delivery_time %><br>
+    <%= f.datetime_select :delivery_time %>
+  </div>
+
+  <h2>Items</h2>
+  <%= f.fields_for :order_items do |item_fields| %>
+    <div>
+      <%= item_fields.label :item_type %><br>
+      <%= item_fields.text_field :item_type %>
+    </div>
+
+    <div>
+      <%= item_fields.label :quantity %><br>
+      <%= item_fields.number_field :quantity %>
+    </div>
+
+    <div>
+      <%= item_fields.label :price %><br>
+      <%= item_fields.number_field :price, step: 0.01 %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.submit "Place Order" %>
+  </div>
+<% end %>
+
