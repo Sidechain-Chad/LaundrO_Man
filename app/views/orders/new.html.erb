@@ -1,0 +1,35 @@
+<!--<h1>Orders#new</h1>
+<p>Find me in app/views/orders/new.html.erb</p>
+-->
+
+<h1>Place a New Order</h1>
+
+<%= form_with model: [@laundromat, @order], local: true do |form| %>
+  <div class="mb-3">
+    <%= form.label :pickup_time %>
+    <%= form.datetime_select :pickup_time, default: Time.current + 2.hours %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :delivery_time %>
+    <%= form.datetime_select :delivery_time, default: Time.current + 24.hours %>
+  </div>
+
+  <h2>Clothing Items</h2>
+  <% if @order.order_items.any? %>
+    <%= form.fields_for :order_items do |item_fields| %>
+      <div class="mb-2">
+        <%= item_fields.label :item_type %>
+        <%= item_fields.select :item_type, ["Jeans", "Underwear", "Boxers", "Chinos", "Briefs", "Shorts", "Dress Pants", "Cargo Pants"], {}, class: "form-select d-inline w-auto me-2" %>
+
+        <%= item_fields.label :quantity, class: "ms-2" %>
+        <%= item_fields.number_field :quantity, min: 1, value: 1, class: "form-control d-inline w-auto" %>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-muted">No items available. Please try again.</p>
+  <% end %>
+
+  <%= form.submit "Place Order", class: "btn btn-primary mt-3" %>
+<% end %>
+

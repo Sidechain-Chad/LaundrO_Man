@@ -6,5 +6,5 @@ class User < ApplicationRecord
 
   enum role: { customer: 0, driver: 1, owner: 2, admin: 3 }
   has_many :orders, dependent: :destroy
-  has_one :laundromat
+  has_one :laundromat, dependent: :destroy
 end

@@ -15,9 +15,11 @@ Rails.application.routes.draw do
     resources :reviews, only: [:new, :create]
 
     # Chats: show and create (chatroom)
-    resources :chats, only: [:show, :create]
+    resources :messages, only: [:show, :create]
   end
-
+  resources :orders do
+    resources :messages, only: [:create]
+  end
   # Orders: additional actions outside nesting
   resources :orders, only: [] do
     member do

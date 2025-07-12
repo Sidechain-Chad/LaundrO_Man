@@ -10,6 +10,7 @@
 # db/seeds.rb
 require 'faker'
 puts "Cleaning database..."
+Message.destroy_all
 OrderItem.destroy_all
 OrderTracking.destroy_all
 Order.destroy_all
@@ -49,7 +50,7 @@ User.create!(
 # Owners (3)
 owners = 3.times.map do |i|
   User.create!(
-    email: "owner#{i+1}@example.com",
+    email: "boner#{i+1}@example.com",
     password: "password",
     first_name: SA_FIRST_NAMES.sample,
     last_name: SA_NAMES.sample,
@@ -73,7 +74,7 @@ end
 # Customers (10)
 customers = 10.times.map do |i|
   User.create!(
-    email: "customer#{i+1}@example.com",
+    email: "stomer#{i+1}@example.com",
     password: "password",
     first_name: SA_FIRST_NAMES.sample,
     last_name: SA_NAMES.sample,
