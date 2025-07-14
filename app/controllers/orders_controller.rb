@@ -5,6 +5,11 @@ class OrdersController < ApplicationController
 
   def index
     @orders = current_user.orders.includes(:laundromat, :order_items)
+    if current_user.laundromat
+      @bags = current_user.laundromat.orders
+    else
+      @bags = []
+    end
   end
 
   def show
