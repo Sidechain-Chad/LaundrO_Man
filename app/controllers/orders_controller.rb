@@ -15,86 +15,73 @@ class OrdersController < ApplicationController
   def show
     @order = Order.find(params[:id])
     @message = Message.new
+    return redirect_to orders_path, alert: "You are not authorized to view this order." unless can_view_order?(@order)
+
+    @laundromat = @order.laundromat
+    @order_items = @order.order_items
+    @tracking_updates = @order.order_trackings.order(:created_at)
   end
 
   def new
     @order = current_user.orders.build(laundromat: @laundromat)
     @order.order_items.build # Initialize at least one empty item
+
   end
 
   def create
-    @laundromat = Laundromat.find(params[:laundromat_id])
-    @order.laundromat = @laundromat
-    @order = Order.new(order_params)
-    @order = current_user.orders.build
-    @order.assign_attributes(
-      laundromat: @laundromat,
-      pickup_time: order_params[:pickup_time],
-      delivery_time: order_params[:delivery_time],
-      status: "pending"
-    )
-
-    unless @order.pickup_time.present? && @order.delivery_time.present?
-      flash.now[:alert] = "Pickup and delivery times must be selected."
-      render :new and return
-    end
-
-    item_params = order_params[:order_items_attributes]&.values || []
-    total = 0
-
-    item_params.each do |item|
-      price_per_unit = price_for(item[:item_type])
-      quantity = item[:quantity].to_i
-      total += price_per_unit * quantity
-
-      @order.order_items.build(
-        item_type: item[:item_type],
-        quantity: quantity,
-        price: price_per_unit * quantity
-      )
-    end
-
-    @order.total_price = total
-
-    if @order.save
-      redirect_to confirmation_order_path(@order), notice: 'Order created!'
-    else
-      flash.now[:alert] = "Failed: #{@order.errors.full_messages.to_sentence}"
-      render :new, status: :unprocessable_entity
-    end
-
+      session[:pending_order] = order_params.to_h.except("pickup_time", "delivery_time")
+      redirect_to confirmation_orders_path
   end
 
+
   def confirmation
-    redirect_to @order, alert: 'Invalid order status' unless @order.status == "confirmed"
+
+    data = session[:pending_order]
+    return redirect_to root_path, alert: "No pending order found." unless data
+
+
+    @order = Order.new(data)
+    @order.user = current_user
+
+
+    @laundromat = Laundromat.find_by(id: data["laundromat_id"])
+
+
+    @order.total_price = calculate_total_price(@order.order_items)
   end
 
   def confirm
-    if current_user == @order.laundromat.owner && @order.status == "pending"
-      @order.update(status: "confirmed")
-      redirect_to @order, notice: "Order confirmed!"
+    order_data = session.delete(:pending_order)
+    return redirect_to root_path, alert: "No pending order." unless order_data
+
+    @order = Order.new(order_data)
+    @order.user = current_user
+    @order.status = "pending"
+    @order.assign_attributes(confirm_order_params)
+
+    @order.total_price = calculate_total_price(@order.order_items)
+
+    if @order.save
+      redirect_to order_path(@order), notice: "Order confirmed!"
     else
-      redirect_to @order, alert: "Not authorized or already confirmed"
+      redirect_to confirmation_orders_path, alert: "Failed to confirm order."
     end
   end
 
-  def tracking
-    @tracking_updates = @order.order_trackings.order(created_at: :desc)
-  end
 
   def cancel
-    if @order.may_cancel?
-      @order.update(status: :cancelled)
-      redirect_to @order, notice: 'Order was successfully cancelled.'
+    if @order.status == "pending"
+      @order.update(status: "cancelled")
+      redirect_to orders_path, notice: "Order cancelled."
     else
-      redirect_to @order, alert: "Cannot cancel order in #{@order.status} state"
+      redirect_to @order, alert: "Only pending orders can be cancelled."
     end
   end
 
   private
 
   def set_order
-    @order = current_user.orders.find(params[:id])
+    @order = Order.find(params[:id])
   end
 
   def set_laundromat
@@ -105,26 +92,22 @@ class OrdersController < ApplicationController
     params.require(:order).permit(
       :pickup_time,
       :delivery_time,
-      order_items_attributes: [
-        :id,
-        :item_type,
-        :quantity,
-        :_destroy
-      ]
+      :laundromat_id,
+      order_items_attributes: [:item_type, :quantity, :price]
     )
   end
 
-  def price_for(item_type)
-    fixed_prices = {
-      "Jeans" => 10,
-      "Underwear" => 5,
-      "Boxers" => 5,
-      "Dress Pants" => 15,
-      "Chinos" => 12,
-      "Briefs" => 5,
-      "Shorts" => 8,
-      "Cargo Pants" => 14
-    }
-    fixed_prices[item_type] || 0
+  def confirm_order_params
+    params.require(:order).permit(:pickup_time, :delivery_time)
+  end
+
+  def calculate_total_price(order_items)
+    order_items.map { |item| item.quantity.to_i * item.price.to_f }.sum
+  end
+
+  def can_view_order?(order)
+    current_user.admin? ||
+      order.user == current_user ||
+      order.laundromat.user_id == current_user.id
   end
 end

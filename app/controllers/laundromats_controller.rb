@@ -7,7 +7,7 @@ class LaundromatsController < ApplicationController
     @laundromat = Laundromat.find(params[:id])
     @reviews = @laundromat.reviews.includes(:user)
     @review = Review.new
-    @order = Order.new # for form
+    @order = Order.new 
     @orders = @laundromat.orders.where(user: current_user)
     @message = Message.new
   end
