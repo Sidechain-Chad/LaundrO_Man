@@ -52,3 +52,9 @@
   %>
   <%= f.submit "Send", class: "btn btn-primary mb-3" %>
 <% end %>
+<%= turbo_stream_from "order_#{@order.id}_messages" %>
+<div id="messages" class="messages">
+  <% @order.messages.each do |message| %>
+    <%= render "messages/message", message: message %>
+  <% end %>
+</div>

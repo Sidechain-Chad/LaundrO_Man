@@ -33,7 +33,11 @@
   <p>You have no orders yet.</p>
 <% end %>
 
-
+<% if @bags.any? %>
+<h2>Clients</h2>
+<% else %>
+<p3>4u</p3>
+<% end %>
 <% if @bags.any? %>
   <table class="table">
     <thead>
