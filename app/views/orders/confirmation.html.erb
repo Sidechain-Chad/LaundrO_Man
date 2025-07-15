@@ -11,7 +11,7 @@
 
   <p><strong>Total Price:</strong> R<%= @order.total_price %></p>
 
-  <%= form_with url: confirm_orders_path, method: :post do %>
+  <%= form_with url: confirm_order_path(@order), method: :post do %>
     <%= hidden_field_tag "order[laundromat_id]", @order.laundromat_id %>
 
     <% @order.order_items.each_with_index do |item, index| %>
@@ -34,7 +34,7 @@
   <% end %>
 
   <br>
-  <%= link_to "Edit Order", new_laundromat_order_path(@order.laundromat_id), method: :get %> |
+  <%= link_to "Edit Order", edit_order_path(@order), method: :get %>
   <%= link_to "Cancel", orders_path, method: :get %>
 <% else %>
   <p>No order details found.</p>

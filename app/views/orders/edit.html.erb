@@ -1,0 +1,28 @@
+<h1>Edit Your Order</h1>
+
+<%= form_with model: [@laundromat, @order], url: laundromat_orders_path(@laundromat), method: :post do |f| %>
+  <%= f.hidden_field :laundromat_id, value: @laundromat.id %>
+
+  <h2>Items</h2>
+
+  <%= f.fields_for :order_items do |item_fields| %>
+    <div>
+      <%= item_fields.label :item_type %><br>
+      <%= item_fields.text_field :item_type %>
+    </div>
+
+    <div>
+      <%= item_fields.label :quantity %><br>
+      <%= item_fields.number_field :quantity %>
+    </div>
+
+    <div>
+      <%= item_fields.label :price %><br>
+      <%= item_fields.number_field :price, step: 0.01 %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.submit "Place Order" %>
+  </div>
+<% end %>

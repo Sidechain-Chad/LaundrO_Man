@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_order, only: [:show, :cancel]
-  before_action :set_laundromat, only: [:new]
+  before_action :set_order, only: [:show, :edit, :update, :confirmation, :confirm, :cancel]
+  before_action :set_laundromat, only: [:new, :create]
 
   def index
     scope = current_user.admin? ? Order : current_user.orders
@@ -14,41 +14,53 @@ class OrdersController < ApplicationController
   end
 
   def create
-  session[:pending_order] = order_params.to_h.except("pickup_time", "delivery_time")
-  redirect_to confirmation_orders_path
-  end
-
-  def confirmation
-
-    data = session[:pending_order]
-    return redirect_to root_path, alert: "No pending order found." unless data
-
-
-    @order = Order.new(data)
-    @order.user = current_user
-
-
-    @laundromat = Laundromat.find_by(id: data["laundromat_id"])
-
-    
-    @order.total_price = calculate_total_price(@order.order_items)
-  end
-
-  def confirm
-    order_data = session.delete(:pending_order)
-    return redirect_to root_path, alert: "No pending order." unless order_data
-
-    @order = Order.new(order_data)
+    @order = @laundromat.orders.new(order_params)
     @order.user = current_user
     @order.status = "pending"
-    @order.assign_attributes(confirm_order_params)
-
     @order.total_price = calculate_total_price(@order.order_items)
 
     if @order.save
-      redirect_to order_path(@order), notice: "Order confirmed!"
+      redirect_to confirmation_order_path(@order)
     else
-      redirect_to confirmation_orders_path, alert: "Failed to confirm order."
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def confirmation
+    unless can_view_order?(@order)
+      return redirect_to orders_path, alert: "You can't confirm this order."
+    end
+
+    @laundromat = @order.laundromat
+    @order_items = @order.order_items
+  end
+
+  def confirm
+    unless can_view_order?(@order)
+      return redirect_to orders_path, alert: "You can't confirm this order."
+    end
+
+    if @order.update(confirm_order_params.merge(status: "pending"))
+      @order.update(total_price: calculate_total_price(@order.order_items))
+      redirect_to orders_path, notice: "Order Processed!"
+    else
+      redirect_to confirmation_order_path(@order), alert: "Failed to confirm order."
+    end
+  end
+
+  def edit
+    unless can_view_order?(@order)
+      redirect_to orders_path, alert: "You're not authorized to edit this order."
+    end
+    @laundromat = @order.laundromat
+  end
+
+  def update
+    if @order.update(order_params)
+      @order.update(total_price: calculate_total_price(@order.order_items))
+      redirect_to confirmation_order_path(@order), notice: "Order updated!"
+    else
+      render :edit, alert: "Failed to update order."
     end
   end
 
@@ -62,7 +74,7 @@ class OrdersController < ApplicationController
 
   def cancel
     if @order.status == "pending"
-      @order.update(status: "cancelled")
+      @order.update(status: "pending")
       redirect_to orders_path, notice: "Order cancelled."
     else
       redirect_to @order, alert: "Only pending orders can be cancelled."
