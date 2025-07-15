@@ -14,6 +14,7 @@ Message.destroy_all
 OrderItem.destroy_all
 OrderTracking.destroy_all
 Order.destroy_all
+Review.destroy_all
 Laundromat.destroy_all
 User.destroy_all
 
@@ -71,7 +72,12 @@ CLOTHING_ITEMS = [
 ]
 # Create Users
 puts "Creating users..."
-
+puts User.count
+puts Laundromat.count
+puts Order.count
+puts OrderTracking.count
+puts Review.count
+puts OrderItem.count
 # Admin
 User.create!(
   email: "admin@example.com",
@@ -85,7 +91,7 @@ User.create!(
 # Owners (3)
 owners = 3.times.map do |i|
   User.create!(
-    email: "bowner#{i+1}@example.com",
+    email: "owner#{i+1}@example.com",
     password: "password",
     first_name: SA_FIRST_NAMES.sample,
     last_name: SA_NAMES.sample,
