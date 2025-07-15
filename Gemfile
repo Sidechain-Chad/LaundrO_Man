@@ -28,7 +28,7 @@ gem "jbuilder"
 # create fakers for the seeds.rb
 gem "faker"
 
-gem "faker"
+# gem "faker"
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
@@ -73,7 +73,7 @@ group :development do
   # gem "spring"
 
   # For generating fake seed data
-  gem "faker"
+  # gem "faker"
 end
 
 group :test do

@@ -1,5 +1,8 @@
 <h2><%= @laundromat.name %></h2>
 <p><%= @laundromat.address %></p>
+<% if @laundromat.photo.attached? %>
+      <%= cl_image_tag @laundromat.photo.key, height: 300, width: 400, crop: :fill %>
+<% end %>
 <p><strong>Reviews</strong></p>
 <ul class="list-group">
   <% @laundromat.reviews.each do |review| %>

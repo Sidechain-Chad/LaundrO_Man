@@ -3,4 +3,5 @@ class Laundromat < ApplicationRecord
 
   has_many :orders, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_one_attached :photo
 end
