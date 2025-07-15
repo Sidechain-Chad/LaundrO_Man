@@ -7,7 +7,7 @@ class LaundromatsController < ApplicationController
     @laundromat = Laundromat.find(params[:id])
     @reviews = @laundromat.reviews.includes(:user)
     @review = Review.new
-    @order = Order.new 
+    @order = Order.new
     @orders = @laundromat.orders.where(user: current_user)
     @message = Message.new
   end
@@ -21,6 +21,11 @@ class LaundromatsController < ApplicationController
     @laundromat.save
     redirect_to laundromat_path(@laundromat)
     @laundromat.user = current_user
+    if @laundromat.save
+      redirect_to laundromat_path(@laundromat)
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   private

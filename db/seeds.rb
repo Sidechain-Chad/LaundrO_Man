@@ -24,16 +24,51 @@ SA_FIRST_NAMES = ["Lerato", "Thando", "Sipho", "Johannes", "Pieter", "Bongani", 
 
 # Clothing items focused on pants/jeans/underwear
 CLOTHING_ITEMS = [
-  { name: "Jeans", price: 25 },
-  { name: "Dress Pants", price: 30 },
-  { name: "Chinos", price: 22 },
-  { name: "Underpants", price: 8 },
-  { name: "Boxers", price: 10 },
-  { name: "Briefs", price: 8 },
-  { name: "Shorts", price: 18 },
-  { name: "Cargo Pants", price: 28 }
+  # :shirt: Clothing
+  { name: "T-Shirt",        price: 25 },
+  { name: "Shirt",          price: 28 },
+  { name: "Blouse",         price: 32 },
+  { name: "Polo Shirt",     price: 26 },
+  { name: "Chinos",         price: 38 },
+  { name: "Dress Pants",    price: 45 },
+  { name: "Jeans",          price: 40 },
+  { name: "Shorts",         price: 30 },
+  { name: "Jacket",         price: 65 },
+  { name: "Hoodie",         price: 60 },
+  { name: "Sweater",        price: 55 },
+  { name: "Tracksuit",      price: 70 },
+  # :socks: Underwear
+  { name: "Underpants",     price: 12 },
+  { name: "Boxers",         price: 14 },
+  { name: "Briefs",         price: 12 },
+  { name: "Bra",            price: 15 },
+  { name: "Socks (Pair)",   price: 8 },
+  { name: "Undershirt",     price: 15 },
+  # :dress: Delicates
+  { name: "Silk Blouse",    price: 45 },
+  { name: "Lace Dress",     price: 60 },
+  { name: "Wool Sweater",   price: 50 },
+  { name: "Scarf",          price: 18 },
+  # :soap: Dry Cleaning
+  { name: "Suit (2-piece)", price: 130 },
+  { name: "Suit (3-piece)", price: 150 },
+  { name: "Evening Gown",   price: 170 },
+  { name: "Coat",           price: 95 },
+  { name: "Blazer",         price: 70 },
+  { name: "Skirt",          price: 45 },
+  { name: "Dress",          price: 55 },
+  # :house: Household
+  { name: "Curtains",       price: 65 },
+  { name: "Bed Sheet",      price: 40 },
+  { name: "Duvet Cover",    price: 60 },
+  { name: "Pillow Case",    price: 18 },
+  { name: "Blanket",        price: 75 },
+  { name: "Comforter",      price: 90 },
+  { name: "Mattress Cover", price: 85 },
+  { name: "Tablecloth",     price: 35 },
+  { name: "Rug (Small)",    price: 110 },
+  { name: "Rug (Large)",    price: 180 }
 ]
-
 # Create Users
 puts "Creating users..."
 
@@ -50,7 +85,7 @@ User.create!(
 # Owners (3)
 owners = 3.times.map do |i|
   User.create!(
-    email: "owner#{i+1}@example.com",
+    email: "bowner#{i+1}@example.com",
     password: "password",
     first_name: SA_FIRST_NAMES.sample,
     last_name: SA_NAMES.sample,
@@ -74,7 +109,7 @@ end
 # Customers (10)
 customers = 10.times.map do |i|
   User.create!(
-    email: "customer#{i+1}@example.com",
+    email: "lcustomer#{i+1}@example.com",
     password: "password",
     first_name: SA_FIRST_NAMES.sample,
     last_name: SA_NAMES.sample,
