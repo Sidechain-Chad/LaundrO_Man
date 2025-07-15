@@ -1,11 +1,41 @@
 <!--<h1>Orders#confirmation</h1>
 <p>Find me in app/views/orders/confirmation.html.erb</p>-->
-<h1>Order Confirmation</h1>
+<h1>Confirm Your Order</h1>
 
-<p>Your order has been placed successfully!</p>
+<% if @order && @order.order_items.any? %>
+  <ul>
+    <% @order.order_items.each do |item| %>
+      <li><%= item.item_type %> - <%= item.quantity %> × R<%= item.price %></li>
+    <% end %>
+  </ul>
 
-<p><strong>Order ID:</strong> <%= @order.id %></p>
-<p><strong>Total Price:</strong> R<%= @order.total_price %></p>
-<p><strong>Status:</strong> <%= @order.status %></p>
+  <p><strong>Total Price:</strong> R<%= @order.total_price %></p>
 
-<p><%= link_to 'Back to My Orders', orders_path %></p>
+  <%= form_with url: confirm_orders_path, method: :post do %>
+    <%= hidden_field_tag "order[laundromat_id]", @order.laundromat_id %>
+
+    <% @order.order_items.each_with_index do |item, index| %>
+      <%= hidden_field_tag "order[order_items_attributes][#{index}][item_type]", item.item_type %>
+      <%= hidden_field_tag "order[order_items_attributes][#{index}][quantity]", item.quantity %>
+      <%= hidden_field_tag "order[order_items_attributes][#{index}][price]", item.price %>
+    <% end %>
+
+    <div>
+      <%= label_tag :pickup_time, "Pickup Time" %><br>
+      <%= datetime_select :order, :pickup_time %>
+    </div>
+
+    <div>
+      <%= label_tag :delivery_time, "Delivery Time" %><br>
+      <%= datetime_select :order, :delivery_time %>
+    </div>
+
+    <%= submit_tag "Confirm Order" %>
+  <% end %>
+
+  <br>
+  <%= link_to "Edit Order", new_laundromat_order_path(@order.laundromat_id), method: :get %> |
+  <%= link_to "Cancel", orders_path, method: :get %>
+<% else %>
+  <p>No order details found.</p>
+<% end %>

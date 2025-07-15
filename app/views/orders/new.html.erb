@@ -4,18 +4,11 @@
 
 <h1>New Order</h1>
 
-<%= form_with model: [@laundromat, @order] do |f| %>
-  <div>
-    <%= f.label :pickup_time %><br>
-    <%= f.datetime_select :pickup_time %>
-  </div>
-
-  <div>
-    <%= f.label :delivery_time %><br>
-    <%= f.datetime_select :delivery_time %>
-  </div>
+<%= form_with model: [@laundromat, @order], url: laundromat_orders_path(@laundromat), method: :post do |f| %>
+  <%= f.hidden_field :laundromat_id, value: @laundromat.id %>
 
   <h2>Items</h2>
+
   <%= f.fields_for :order_items do |item_fields| %>
     <div>
       <%= item_fields.label :item_type %><br>
