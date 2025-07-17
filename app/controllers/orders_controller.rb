@@ -18,6 +18,7 @@ class OrdersController < ApplicationController
     @order.user = current_user
     @order.status = "pending"
     @order.total_price = calculate_total_price(@order.order_items)
+    @order.laundromat = @laundromat
 
     if @order.save
       redirect_to confirmation_order_path(@order)
@@ -49,15 +50,22 @@ class OrdersController < ApplicationController
   end
 
   def edit
-    unless can_view_order?(@order)
-      redirect_to orders_path, alert: "You're not authorized to edit this order."
-    end
+    # @order = Order.find(params[:id])
     @laundromat = @order.laundromat
+
+    unless can_view_order?(@order)
+      redirect_to orders_path, alert: "You're not authorized to edit this order." and return
+    end
   end
 
   def update
     if @order.update(order_params)
-      @order.update(total_price: calculate_total_price(@order.order_items))
+      # Calculate total price and save it only if changed
+      total = calculate_total_price(@order.order_items)
+      if @order.total_price != total
+        @order.update_column(:total_price, total) # update_column skips validations and callbacks
+      end
+
       redirect_to confirmation_order_path(@order), notice: "Order updated!"
     else
       render :edit, alert: "Failed to update order."
@@ -74,7 +82,7 @@ class OrdersController < ApplicationController
 
   def cancel
     if @order.status == "pending"
-      @order.update(status: "pending")
+      @order.update(status: "cancelled")
       redirect_to orders_path, notice: "Order cancelled."
     else
       redirect_to @order, alert: "Only pending orders can be cancelled."
@@ -95,7 +103,6 @@ class OrdersController < ApplicationController
     params.require(:order).permit(
       :pickup_time,
       :delivery_time,
-      :laundromat_id,
       order_items_attributes: [:item_type, :quantity, :price]
     )
   end

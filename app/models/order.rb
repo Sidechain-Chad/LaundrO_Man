@@ -7,5 +7,5 @@ class Order < ApplicationRecord
 
   enum status: { unconfirmed: 0, pending: 1, processing: 2, in_transit: 3, delivered: 4, cancelled: 5 }
 
-  accepts_nested_attributes_for :order_items
+  accepts_nested_attributes_for :order_items, allow_destroy: true
 end

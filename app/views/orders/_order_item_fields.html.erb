@@ -1,0 +1,38 @@
+<div class="nested-fields" data-order-items-target="item" data-controller="order-items" data-action="change->order-items#updateItemPrice input->order-items#updateItemPrice">
+  <div class="row mb-2">
+    <div class="col">
+      <%= f.label :item_type, "Item Type" %>
+      <%= f.select :item_type,
+        [
+          "T-Shirt", "Shirt", "Blouse", "Polo Shirt", "Chinos", "Dress Pants", "Jeans",
+          "Shorts", "Jacket", "Hoodie", "Sweater", "Tracksuit", "Underpants", "Boxers", "Briefs",
+          "Bra", "Socks (Pair)", "Undershirt", "Silk Blouse", "Lace Dress", "Wool Sweater",
+          "Scarf", "Suit (2-piece)", "Suit (3-piece)", "Evening Gown", "Coat", "Blazer",
+          "Skirt", "Dress", "Curtains", "Bed Sheet", "Duvet Cover", "Pillow Case", "Blanket",
+          "Comforter", "Mattress Cover", "Tablecloth", "Rug (Small)", "Rug (Large)"
+        ],
+        {},
+        class: "form-control",
+        data: { order_items_target: "itemType" } %>
+    </div>
+
+    <div class="col">
+      <%= f.label :quantity %>
+      <%= f.number_field :quantity, min: 1, value: f.object.quantity || 1,
+            class: "form-control",
+            data: { order_items_target: "quantity" } %>
+    </div>
+
+    <div class="col">
+      <%= f.label :price %>
+      <%= f.number_field :price, step: 0.01, readonly: true,
+            class: "form-control",
+            data: { order_items_target: "price" } %>
+    </div>
+
+    <div class="col-auto align-self-end">
+      <%= f.hidden_field :_destroy, value: "false", data: { order_items_target: "destroyField" } %>
+      <button type="button" class="btn btn-danger btn-sm" data-action="order-items#remove">Remove</button>
+    </div>
+  </div>
+</div>
