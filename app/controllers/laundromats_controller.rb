@@ -23,9 +23,15 @@ class LaundromatsController < ApplicationController
     end
   end
 
+  def destroy
+    @laundromat = Laundromat.find(params[:id])
+    @laundromat.destroy
+    redirect_to laundromats_path, status: :see_other
+  end
+
   private
 
   def laundromat_params
-    params.require(:laundromat).permit(:name, :address, :phone_number, :photo)
+    params.require(:laundromat).permit(:name, :address, :phone_number, photos: [])
   end
 end

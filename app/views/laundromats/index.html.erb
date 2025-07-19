@@ -1,17 +1,17 @@
-<div class="container">
-<div class="d-flex justify-content-space-around">
-<div class="col-12 col-lg-6">
-  <h1>Pick a laundromat</h1>
-    <% @laundromats.each do |laundromat| %>
-      <div class="card-product">
-        <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/skateboard.jpg" />
-        <div class="card-product-infos">
-          <h2><%= laundromat.name %></h2>
-          <%= link_to "Show laundromat", laundromat %>
-          <p>Product description with <strong>relevant info</strong> only.</p>
-        </div>
-      </div>
+<% @laundromats.each do |laundromat| %>
+  <div class="card-product">
+    <% if laundromat.photos.attached? %>
+      <% laundromat.photos.each do |photo| %>
+        <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
+      <% end %>
+    <% else %>
+      <p>No photos available</p>
     <% end %>
-</div>
-</div>
-</div>
+
+    <div class="card-product-infos">
+      <h2><%= link_to laundromat.name, laundromat_path(laundromat) %></h2>
+      <p><%= laundromat.address %></p>
+      <p>Product description with <strong>relevant info</strong> only.</p>
+    </div>
+  </div>
+<% end %>

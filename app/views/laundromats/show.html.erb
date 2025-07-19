@@ -1,13 +1,18 @@
 <h2><%= @laundromat.name %></h2>
 <p><%= @laundromat.address %></p>
-<% if @laundromat.photo.attached? %>
-      <%= cl_image_tag @laundromat.photo.key, height: 300, width: 400, crop: :fill %>
+<% @laundromat.photos.each do |photo| %>
+      <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
 <% end %>
 <p><strong>Reviews</strong></p>
 <ul class="list-group">
   <% @laundromat.reviews.each do |review| %>
+    <%= review.rating %>
     <li class="list-group-item"><%= review.content %></li>
   <% end %>
   <%= link_to "Back to all laundromats", laundromats_path %>
+  <%= link_to "Delete laundromat",
+  laundromat_path(@laundromat),
+  data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
+%>
 </ul>
 <br>
