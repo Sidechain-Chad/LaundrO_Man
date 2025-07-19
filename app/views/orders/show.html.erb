@@ -35,11 +35,6 @@
 
 <div class ="container chat">
    <p>order chat room</p>
-<div id="messages" class="messages">
-  <% @order.messages.each do |message| %>
-    <%= render "messages/message", message: message %>
-  <% end %>
-</div>
 
 <%= simple_form_for [@order, @message],
   html: {class: "d-flex"} do |f|
@@ -54,7 +49,9 @@
 <% end %>
 <%= turbo_stream_from "order_#{@order.id}_messages" %>
 <div id="messages" class="messages">
-  <% @order.messages.each do |message| %>
-    <%= render "messages/message", message: message %>
-  <% end %>
+
+<% @messages.each do |message| %>
+  <%= render "messages/message", message: message, user: current_user %>
+<% end %>
+
 </div>

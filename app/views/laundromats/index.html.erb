@@ -1,18 +1,16 @@
-<!--<h1>Laundromats#index</h1>
-<p>Find me in app/views/laundromats/index.html.erb</p>
--->
+<div class="laundromats-container">
+  <h1>All Laundromats</h1>
 
-<h1>All Laundromats</h1>
-
-<% @laundromats.each do |laundromat| %>
-  <div class="card">
-    <h3><%= laundromat.name %></h3>
-    <p><%= laundromat.address %></p>
-
-    <%= link_to "View Details", laundromat_path(laundromat), class: "btn btn-outline-primary" %>
-
-    <!-- ✅ Add Order button -->
-    <%= link_to "Book This Laundry", new_laundromat_order_path(laundromat), class: "btn btn-primary" %>
-  </div>
-<% end %>
-
+  <% @laundromats.each do |laundromat| %>
+    <div class="laundromat-card">
+      <div class="card-content">
+        <h3><%= laundromat.name %></h3>
+        <p><%= laundromat.address %></p>
+      </div>
+      <div class="card-actions">
+        <%= link_to "View Details", laundromat_path(laundromat), class: "btn btn-secondary" %>
+        <%= link_to "Book This Laundry", new_laundromat_order_path(laundromat), class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

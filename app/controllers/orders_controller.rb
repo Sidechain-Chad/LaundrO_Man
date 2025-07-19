@@ -15,6 +15,7 @@ class OrdersController < ApplicationController
   def show
     @order = Order.find(params[:id])
     @message = Message.new
+    @messages = @order.messages.includes(:user)
     return redirect_to orders_path, alert: "You are not authorized to view this order." unless can_view_order?(@order)
 
     @laundromat = @order.laundromat

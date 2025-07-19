@@ -115,7 +115,7 @@ end
 # Customers (10)
 customers = 10.times.map do |i|
   User.create!(
-    email: "lcustomer#{i+1}@example.com",
+    email: "customer#{i+1}@example.com",
     password: "password",
     first_name: SA_FIRST_NAMES.sample,
     last_name: SA_NAMES.sample,
