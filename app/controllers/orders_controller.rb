@@ -113,13 +113,13 @@ class OrdersController < ApplicationController
   end
 
   # Accepts only the allowed fields from the order form (strong params)
-  def order_params
-    params.require(:order).permit(
-      :pickup_time,
-      :delivery_time,
-      order_items_attributes: [:item_type, :quantity, :price]
-    )
-  end
+def order_params
+  params.require(:order).permit(
+    :pickup_time,
+    :delivery_time,
+    order_items_attributes: [:id, :item_type, :quantity, :price, :_destroy]
+  )
+end
 
   # Accepts only the delivery and pickup time fields when confirming an order
   def confirm_order_params
