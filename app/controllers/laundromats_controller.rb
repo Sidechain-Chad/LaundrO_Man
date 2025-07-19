@@ -6,7 +6,7 @@ class LaundromatsController < ApplicationController
   def show
     @laundromat = Laundromat.find(params[:id])
     @reviews = @laundromat.reviews.includes(:user)
-    @review = Review.new
+    @review = @laundromat.reviews.new
   end
 
   def new

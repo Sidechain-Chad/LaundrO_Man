@@ -1,3 +1,5 @@
+<%= link_to "Create Laundromat", new_laundromat_path, class: "btn btn-primary" %>
+
 <% @laundromats.each do |laundromat| %>
   <div class="card-product">
     <% if laundromat.photos.attached? %>
