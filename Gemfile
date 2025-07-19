@@ -80,3 +80,5 @@ group :test do
 end
 
 gem "solid_cable"
+
+gem "pg_search"
