@@ -1,6 +1,14 @@
 class LaundromatsController < ApplicationController
   def index
     @laundromats = Laundromat.all
+    @markers = @laundromats.geocoded.map do |laundromat|
+      {
+        lat: laundromat.latitude,
+        lng: laundromat.longitude,
+        info_window_html: render_to_string(partial: "info_window", locals: { laundromat: laundromat }),
+        marker_html: render_to_string(partial: "marker", locals: { laundromat: laundromat })
+      }
+    end
   end
 
   def show
