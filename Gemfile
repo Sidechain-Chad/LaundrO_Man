@@ -31,6 +31,8 @@ gem "faker"
 
 gem "geocoder"
 
+gem 'ostruct'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
@@ -75,6 +77,7 @@ group :development do
 
   # For generating fake seed data
   # gem "faker"
+
 end
 
 group :test do

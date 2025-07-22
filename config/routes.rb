@@ -1,28 +1,19 @@
 Rails.application.routes.draw do
-  get 'reviews/new'
   devise_for :users
   root to: "pages#home"
 
-  # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Laundromats: browse, filter and show details
   resources :laundromats do
-    # Orders: new and create under a laundromat
     resources :orders, only: [:new, :create]
-
-    # Reviews: new and create under a laundromat
     resources :reviews, only: [:new, :create]
-
-    # Chats: show and create (chatroom)
     resources :chats, only: [:show, :create]
   end
 
-  # Orders: additional actions outside nesting
-  resources :orders, only: [] do
+  resources :orders, only: [:index, :show, :edit, :update] do
     member do
       get :confirmation
-      get :order_trackings
+      post :confirm
       patch :cancel
     end
   end

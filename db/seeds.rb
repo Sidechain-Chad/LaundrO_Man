@@ -19,8 +19,64 @@ Order.destroy_all
 Laundromat.destroy_all
 User.destroy_all
 
+
 puts "👤 Creating admin..."
 admin = User.create!(
+
+# Cape Town locations and names
+CAPE_TOWN_AREAS = ["Gardens", "Sea Point", "Green Point", "Claremont", "Rondebosch", "Observatory", "Woodstock"]
+SA_NAMES = ["Ndlovu", "Van der Merwe", "Smith", "Jacobs", "Petersen", "Khumalo", "Van Niekerk"]
+SA_FIRST_NAMES = ["Lerato", "Thando", "Sipho", "Johannes", "Pieter", "Bongani", "Amina"]
+
+# Clothing items focused on pants/jeans/underwear
+CLOTHING_ITEMS = [
+  { name: "T-Shirt", price: 25 },
+  { name: "Shirt", price: 28 },
+  { name: "Blouse", price: 32 },
+  { name: "Polo Shirt", price: 26 },
+  { name: "Chinos", price: 38 },
+  { name: "Dress Pants", price: 45 },
+  { name: "Jeans", price: 40 },
+  { name: "Shorts", price: 30 },
+  { name: "Jacket", price: 65 },
+  { name: "Hoodie", price: 60 },
+  { name: "Sweater", price: 55 },
+  { name: "Tracksuit", price: 70 },
+  { name: "Underpants", price: 12 },
+  { name: "Boxers", price: 14 },
+  { name: "Briefs", price: 12 },
+  { name: "Bra", price: 15 },
+  { name: "Socks (Pair)", price: 8 },
+  { name: "Undershirt", price: 15 },
+  { name: "Silk Blouse", price: 45 },
+  { name: "Lace Dress", price: 60 },
+  { name: "Wool Sweater", price: 50 },
+  { name: "Scarf", price: 18 },
+  { name: "Suit (2-piece)", price: 130 },
+  { name: "Suit (3-piece)", price: 150 },
+  { name: "Evening Gown", price: 170 },
+  { name: "Coat", price: 95 },
+  { name: "Blazer", price: 70 },
+  { name: "Skirt", price: 45 },
+  { name: "Dress", price: 55 },
+  { name: "Curtains", price: 65 },
+  { name: "Bed Sheet", price: 40 },
+  { name: "Duvet Cover", price: 60 },
+  { name: "Pillow Case", price: 18 },
+  { name: "Blanket", price: 75 },
+  { name: "Comforter", price: 90 },
+  { name: "Mattress Cover", price: 85 },
+  { name: "Tablecloth", price: 35 },
+  { name: "Rug (Small)", price: 110 },
+  { name: "Rug (Large)", price: 180 }
+]
+
+# Create Users
+puts "Creating users..."
+
+# Admin
+User.create!(
+
   email: "admin@example.com",
   password: "password",
   first_name: "Admin",
