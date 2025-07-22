@@ -8,13 +8,20 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 # db/seeds.rb
-require 'faker'
-puts "Cleaning database..."
-OrderItem.destroy_all
+require "open-uri"
+require "faker"
+
+puts "🧹 Cleaning database..."
+Review.destroy_all
 OrderTracking.destroy_all
+OrderItem.destroy_all
 Order.destroy_all
 Laundromat.destroy_all
 User.destroy_all
+
+
+puts "👤 Creating admin..."
+admin = User.create!(
 
 # Cape Town locations and names
 CAPE_TOWN_AREAS = ["Gardens", "Sea Point", "Green Point", "Claremont", "Rondebosch", "Observatory", "Woodstock"]
@@ -69,117 +76,130 @@ puts "Creating users..."
 
 # Admin
 User.create!(
+
   email: "admin@example.com",
   password: "password",
   first_name: "Admin",
   last_name: "User",
-  address: "12 Adderley St, Cape Town City Centre, 8001",
+  address: "Admin HQ",
   role: :admin
 )
 
-# Owners (3)
-owners = 3.times.map do |i|
-  User.create!(
-    email: "owner#{i+1}@example.com",
+puts "🧍 Creating laundromat owners and laundromats..."
+
+owners_data = [
+  {
+    email: "owner1@example.com",
+    first_name: "Liam",
+    last_name: "Smith",
+    address: "12 Fast Lane, Cape Town",
+    phone_number: "021 123 4567",
+    laundromat_name: "Quick Wash",
+    image_url: "https://media.istockphoto.com/id/1346705134/photo/laundry-shop-interior-with-counter-and-washing-machines-3d-rendering.jpg?s=612x612&w=0&k=20&c=xJWp30P7LzfnFTWtXaCmhTRSxdowWITOKhqNlrM1hc0="
+  },
+  {
+    email: "owner2@example.com",
+    first_name: "Noah",
+    last_name: "Brown",
+    address: "99 Clean Ave, Durban",
+    phone_number: "031 456 7890",
+    laundromat_name: "Bubble & Shine",
+    image_url: "https://media.istockphoto.com/id/1329022730/photo/stack-of-folded-towels-and-detergents-on-white-table-in-bathroom.jpg?s=612x612&w=0&k=20&c=hiH5LkPeRA7eb-AMVRRwww-idqKEkF3ruEfecW7vjto="
+  },
+  {
+    email: "owner3@example.com",
+    first_name: "Emma",
+    last_name: "Jones",
+    address: "88 Spin St, Joburg",
+    phone_number: "011 987 6543",
+    laundromat_name: "Spin City Laundry",
+    image_url: "https://media.istockphoto.com/id/857747340/photo/water-splash-of-the-washing-machine-drum.jpg?s=612x612&w=0&k=20&c=gMM1GWjpnuWe28FhH5uyGJ6eTG53R93THOsBrIsZwD8="
+  }
+]
+
+laundromats = []
+
+owners_data.each do |data|
+  owner = User.create!(
+    email: data[:email],
     password: "password",
-    first_name: SA_FIRST_NAMES.sample,
-    last_name: SA_NAMES.sample,
-    address: "#{rand(1..100)} #{['Bree', 'Long', 'Loop'].sample} St, #{CAPE_TOWN_AREAS.sample}, 8000",
+    first_name: data[:first_name],
+    last_name: data[:last_name],
+    address: data[:address],
     role: :owner
   )
+
+  file = URI.open(data[:image_url])
+  laundromat = Laundromat.create!(
+    name: data[:laundromat_name],
+    address: data[:address],
+    phone_number: data[:phone_number],
+    user: owner
+  )
+  laundromat.photos.attach(io: file, filename: "#{data[:laundromat_name].parameterize}.jpg", content_type: "image/jpeg")
+  laundromats << laundromat
 end
 
-# Drivers (5)
-# drivers = 5.times.map do |i|
-#   User.create!(
-#     email: "driver#{i+1}@example.com",
-#     password: "password",
-#     first_name: SA_FIRST_NAMES.sample,
-#     last_name: SA_NAMES.sample,
-#     address: "#{rand(1..100)} #{['Victoria', 'Albert'].sample} Rd, #{CAPE_TOWN_AREAS.sample}, 8000",
-#     role: :driver
-#   )
-# end
+puts "🚗 Creating drivers..."
 
-# Customers (10)
-customers = 10.times.map do |i|
+2.times do
   User.create!(
-    email: "customer#{i+1}@example.com",
+    email: Faker::Internet.unique.email,
     password: "password",
-    first_name: SA_FIRST_NAMES.sample,
-    last_name: SA_NAMES.sample,
-    address: "#{rand(1..100)} #{['Kloof', 'Buitenkant'].sample} St, #{CAPE_TOWN_AREAS.sample}, 8000",
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    address: Faker::Address.full_address,
+    role: :driver
+  )
+end
+
+puts "🧍 Creating customers..."
+
+customers = []
+2.times do
+  user = User.create!(
+    email: Faker::Internet.unique.email,
+    password: "password",
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    address: Faker::Address.full_address,
     role: :customer
   )
+  customers << user
 end
 
-# Create Laundromats
-puts "Creating laundromats..."
-laundromats = [
-  "Cape Wash & Fold",
-  "Table Mountain Laundry",
-  "V&A Laundromat"
-].map.with_index do |name, i|
-  Laundromat.create!(
-    name: name,
-    address: "#{rand(1..100)} #{['Bree', 'Long'].sample} St, #{CAPE_TOWN_AREAS.sample}, 8000",
-    phone_number: "+27 #{rand(60..89)} #{rand(100..999)} #{rand(1000..9999)}",
-    user: owners.sample
-  )
-end
+puts "📦 Creating orders, items, tracking and reviews..."
 
-# Create Orders
-puts "Creating orders..."
-order_statuses = ["pending", "processing", "in_transit", "delivered"]
-
-30.times do
-  order = Order.create!(
-    user: customers.sample,
-    laundromat: laundromats.sample,
-    pickup_time: Faker::Time.between(from: DateTime.now - 3, to: DateTime.now + 3),
-    delivery_time: Faker::Time.between(from: DateTime.now + 4, to: DateTime.now + 7),
-    status: order_statuses.sample,
-    total_price: 0
-  )
-
-  # Add pants/jeans/underwear items
-  order_total = 0
-  rand(3..8).times do
-    item = CLOTHING_ITEMS.sample
-    quantity = rand(1..5)
-    price = item[:price] * quantity
-    order_total += price
+laundromats.each do |laundromat|
+  customers.each do |customer|
+    order = Order.create!(
+      user: customer,
+      laundromat: laundromat,
+      pickup_time: Faker::Time.forward(days: 1, period: :morning),
+      delivery_time: Faker::Time.forward(days: 2, period: :evening),
+      status: "in_progress",
+      total_price: 100.0
+    )
 
     OrderItem.create!(
       order: order,
-      item_type: item[:name],
-      quantity: quantity,
-      price: price
+      item_type: "Shirt",
+      quantity: 5,
+      price: 50.0
     )
-  end
 
-  order.update(total_price: order_total)
-
-  # Create tracking
-  status_index = order_statuses.index(order.status)
-  order_statuses[0..status_index].each_with_index do |status, i|
     OrderTracking.create!(
       order: order,
-      status: status,
-      notes: "Status updated to #{status}",
-      created_at: order.created_at + i.hours
+      status: "Picked up",
+      notes: "Customer confirmed pickup."
+    )
+
+    Review.create!(
+      user: customer,
+      laundromat: laundromat,
+      content: Faker::Restaurant.review
     )
   end
 end
 
-# Assign drivers to in-progress orders
-# puts "Assigning drivers..."
-# Order.where(status: ["processing", "in_transit"]).each do |order|
-#   order.update(driver_id: drivers.sample.id)
-# end
-
-puts "Seeding complete! Created:"
-puts "- #{User.count} users"
-puts "- #{Laundromat.count} laundromats"
-puts "- #{Order.count} orders"
-puts "- #{OrderItem.count} clothing items"
+puts "✅ Seeding complete!"

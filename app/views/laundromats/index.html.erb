@@ -1,12 +1,24 @@
-<h1>All Laundromats</h1>
+<%= link_to "Create Laundromat", new_laundromat_path, class: "btn btn-primary" %>
 
+<div style="width: 100%; height: 300px;"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+</div>
 <% @laundromats.each do |laundromat| %>
-  <div>
-    <h3><%= laundromat.name %></h3>
-    <p><%= laundromat.address %></p>
+  <div class="card-product">
+    <% if laundromat.photos.attached? %>
+      <% laundromat.photos.each do |photo| %>
+        <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
+      <% end %>
+    <% else %>
+      <p>No photos available</p>
+    <% end %>
 
-    <%= link_to "View Details", laundromat_path(laundromat) %><br>
-    <%= link_to "Book This Laundry", new_laundromat_order_path(laundromat) %>
+    <div class="card-product-infos">
+      <h2><%= link_to laundromat.name, laundromat_path(laundromat) %></h2>
+      <p><%= laundromat.address %></p>
+      <p>Product description with <strong>relevant info</strong> only.</p>
+    </div>
   </div>
-  <hr>
 <% end %>
