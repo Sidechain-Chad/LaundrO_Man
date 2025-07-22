@@ -1,114 +1,138 @@
 class OrdersController < ApplicationController
-  # before_action :authenticate_user!
-  # before_action :set_order, only: [:show, :confirmation, :tracking, :cancel, :confirm]
+  before_action :authenticate_user!
+  before_action :set_order, only: [:show, :edit, :update, :confirmation, :confirm, :cancel]
   before_action :set_laundromat, only: [:new, :create]
 
+  # Shows a list of orders:
+  # - Admins see all orders
+  # - Other users see only their own
   def index
-    @orders = current_user.orders.includes(:laundromat, :order_items)
+    scope = current_user.admin? ? Order : current_user.orders
+    @orders = scope.includes(:laundromat, :order_items)
     if current_user.laundromat
       @bags = current_user.laundromat.orders
     else
       @bags = []
     end
-  end
 
-  def show
-    @order = Order.find(params[:id])
-    @message = Message.new
-    @messages = @order.messages.includes(:user)
-    return redirect_to orders_path, alert: "You are not authorized to view this order." unless can_view_order?(@order)
+    def new
+      @order = @laundromat.orders.new
+      @order.order_items.build
+    end
 
-    @laundromat = @order.laundromat
-    @order_items = @order.order_items
-    @tracking_updates = @order.order_trackings.order(:created_at)
-  end
+    def create
+      @order = @laundromat.orders.new(order_params)
+      @order.user = current_user
+      @order.status = "pending"
+      @order.total_price = calculate_total_price(@order.order_items)
+      @order.laundromat = @laundromat
 
-  def new
-    @order = current_user.orders.build(laundromat: @laundromat)
-    @order.order_items.build # Initialize at least one empty item
+      if @order.save
+        redirect_to confirmation_order_path(@order)
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+    def confirmation
+      unless can_view_order?(@order)
+        return redirect_to orders_path, alert: "You can't confirm this order."
+      end
 
-  end
-
-  def create
-      session[:pending_order] = order_params.to_h.except("pickup_time", "delivery_time")
-      redirect_to confirmation_orders_path
-  end
-
-
-  def confirmation
-
-    data = session[:pending_order]
-    return redirect_to root_path, alert: "No pending order found." unless data
-
-
-    @order = Order.new(data)
-    @order.user = current_user
-
-
-    @laundromat = Laundromat.find_by(id: data["laundromat_id"])
-
-
-    @order.total_price = calculate_total_price(@order.order_items)
+      @laundromat = @order.laundromat
+      @order_items = @order.order_items
+    end
   end
 
   def confirm
-    order_data = session.delete(:pending_order)
-    return redirect_to root_path, alert: "No pending order." unless order_data
-
-    @order = Order.new(order_data)
-    @order.user = current_user
-    @order.status = "pending"
-    @order.assign_attributes(confirm_order_params)
-
-    @order.total_price = calculate_total_price(@order.order_items)
-
-    if @order.save
-      redirect_to order_path(@order), notice: "Order confirmed!"
-    else
-      redirect_to confirmation_orders_path, alert: "Failed to confirm order."
+    unless can_view_order?(@order)
+      return redirect_to orders_path, alert: "You can't confirm this order."
     end
-  end
 
-
-  def cancel
-    if @order.status == "pending"
-      @order.update(status: "cancelled")
-      redirect_to orders_path, notice: "Order cancelled."
-    else
-      redirect_to @order, alert: "Only pending orders can be cancelled."
+    if @order.update(confirm_order_params.merge(status: "pending"))
+      @order.update(total_price: calculate_total_price(@order.order_items))
+      redirect_to orders_path, notice: "Order Processed!"
+        else
+      redirect_to confirmation_order_path(@order), alert: "Failed to confirm order."
+        end
     end
-  end
 
-  private
+    def edit
+      @laundromat = @order.laundromat
 
-  def set_order
-    @order = Order.find(params[:id])
-  end
+      unless can_view_order?(@order)
+        redirect_to orders_path, alert: "You're not authorized to edit this order." and return
+      end
+    end
 
-  def set_laundromat
-    @laundromat = Laundromat.find(params[:laundromat_id])
-  end
+    def update
+      if @order.update(order_params)
+        total = calculate_total_price(@order.order_items)
+        if @order.total_price != total
+          @order.update_column(:total_price, total)
+        end
 
+        redirect_to confirmation_order_path(@order), notice: "Order updated!"
+      else
+        render :edit, alert: "Failed to update order."
+      end
+    end
+
+    def show
+      @message = Message.new
+      @messages = @order.messages.includes(:user)
+      return redirect_to orders_path, alert: "You are not authorized to view this order."
+      unless can_view_order?(@order)
+
+      @laundromat = @order.laundromat
+      @order_items = @order.order_items
+      @tracking_updates = @order.order_trackings.order(:created_at)
+      end
+    end
+
+    def cancel
+      if @order.status == "pending"
+        @order.update(status: "cancelled")
+        redirect_to orders_path, notice: "Order cancelled."
+      else
+        redirect_to @order, alert: "Only pending orders can be cancelled."
+      end
+    end
+
+    private
+
+    # Finds the order based on the ID from the URL
+    def set_order
+      @order = Order.find(params[:id])
+    end
+
+    # Finds the laundromat for new or creating an order
+    def set_laundromat
+      @laundromat = Laundromat.find(params[:laundromat_id])
+    end
+
+    # Accepts only the allowed fields from the order form (strong params)
   def order_params
     params.require(:order).permit(
       :pickup_time,
       :delivery_time,
-      :laundromat_id,
-      order_items_attributes: [:item_type, :quantity, :price]
+      order_items_attributes: [:id, :item_type, :quantity, :price, :_destroy]
     )
   end
 
-  def confirm_order_params
-    params.require(:order).permit(:pickup_time, :delivery_time)
-  end
+    # Accepts only the delivery and pickup time fields when confirming an order
+    def confirm_order_params
+      params.require(:order).permit(:pickup_time, :delivery_time)
+    end
 
-  def calculate_total_price(order_items)
-    order_items.map { |item| item.quantity.to_i * item.price.to_f }.sum
-  end
+    # Calculates the total cost by multiplying quantity × price for each item
+    def calculate_total_price(order_items)
+      order_items.map { |item| item.quantity.to_i * item.price.to_f }.sum
+    end
 
-  def can_view_order?(order)
-    current_user.admin? ||
-      order.user == current_user ||
-      order.laundromat.user_id == current_user.id
+    # Checks if the current user is allowed to view or manage the order
+    def can_view_order?(order)
+      current_user.admin? ||
+        order.user == current_user ||
+        order.laundromat.owner_id == current_user.id
+    end
   end
-end

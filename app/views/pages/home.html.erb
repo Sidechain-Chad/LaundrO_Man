@@ -5,17 +5,12 @@
   <section class="hero-section">
     <div class="hero-container">
       <div class="hero-image">
-        <%= image_tag "laundryman_logo.png", alt: "LaundryMan Logo" %>
+        <%= image_tag "Adobe Express - file.png", alt: "LaundryMan Logo" %>
       </div>
       <div class="hero-content">
         <h1>Your One-Stop Laundry Solution</h1>
         <p>Fresh clothes, easy living. Schedule a pickup in minutes.</p>
-        <a href="#" class="btn btn-primary">Quick Service</a>
-                <%# This button now has a Font Awesome icon next to the text %>
-        <%= link_to laundromats_path, class: "btn btn-primary" do %>
-          <i class="fa fa-hourglass-start"></i> Find a Laundromat
-        <% end %>
-
+        <%= link_to "Browse Laundromats", laundromats_path, class: "btn btn-primary" %>
       </div>
     </div>
   </section>
