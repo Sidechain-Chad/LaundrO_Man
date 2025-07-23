@@ -15,7 +15,8 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
+# gem "importmap-rails"
+gem "importmap-rails", "~> 1.2.3"
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
@@ -28,7 +29,9 @@ gem "jbuilder"
 # create fakers for the seeds.rb
 gem "faker"
 
-gem "faker"
+gem "geocoder"
+
+gem 'ostruct'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
@@ -38,6 +41,7 @@ gem "faker"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
+gem "cloudinary"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -72,7 +76,8 @@ group :development do
   # gem "spring"
 
   # For generating fake seed data
-  gem "faker"
+  # gem "faker"
+
 end
 
 group :test do

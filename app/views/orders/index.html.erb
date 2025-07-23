@@ -1,17 +1,19 @@
-<div class="container">
-  <h1 class="page-title">All Laundromats</h1>
+<h1>Your Orders</h1>
 
-  <div class="laundromat-list">
-    <% @laundromats.each do |laundromat| %>
-      <%# This div needs class="laundromat-item" to be styled %>
-      <div class="laundromat-item">
-        <h2><%= laundromat.name %></h2>
-        <p class="address"><%= laundromat.address %></p>
-        <div class="actions">
-          <%= link_to "View Details", laundromat_path(laundromat) %>
-          <%= link_to "Book This Laundry", "#" %>
-        </div>
-      </div>
+<p><%= link_to "Browse Laundromats", laundromats_path %></p>
+
+<% @orders.each do |order| %>
+  <div>
+    <p><strong>Order ID:</strong> <%= order.id %></p>
+    <p><strong>Status:</strong> <%= order.status %></p>
+    <p><strong>Total Price:</strong> R<%= order.total_price %></p>
+    <p><strong>Pickup Time:</strong> <%= order.pickup_time %></p>
+    <p><strong>Delivery Time:</strong> <%= order.delivery_time %></p>
+    <p><%= link_to 'View Order', order_path(order) %></p>
+    <% if order.status == "pending" %>
+      <%= form_with url: cancel_order_path(order), method: :patch do %>
+  <%= submit_tag "Cancel Order" %>
+<% end %>
     <% end %>
   </div>
 </div>

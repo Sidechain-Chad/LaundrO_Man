@@ -10,13 +10,10 @@ Rails.application.routes.draw do
     resources :chats, only: [:show, :create]
   end
 
-  resources :orders, only: [:index, :show] do
-    collection do
+  resources :orders, only: [:index, :show, :edit, :update] do
+    member do
       get :confirmation
       post :confirm
-    end
-
-    member do
       patch :cancel
     end
   end
