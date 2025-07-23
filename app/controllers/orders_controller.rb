@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
     else
       @bags = []
     end
-
+  end
     def new
       @order = @laundromat.orders.new
       @order.order_items.build
@@ -41,7 +41,6 @@ class OrdersController < ApplicationController
       @laundromat = @order.laundromat
       @order_items = @order.order_items
     end
-  end
 
   def confirm
     unless can_view_order?(@order)
@@ -78,10 +77,11 @@ class OrdersController < ApplicationController
     end
 
     def show
+      @order.status = "pending"
       @message = Message.new
       @messages = @order.messages.includes(:user)
-      return redirect_to orders_path, alert: "You are not authorized to view this order."
       unless can_view_order?(@order)
+        return redirect_to orders_path, alert: "You are not authorized to view this order."
 
       @laundromat = @order.laundromat
       @order_items = @order.order_items
@@ -100,17 +100,14 @@ class OrdersController < ApplicationController
 
     private
 
-    # Finds the order based on the ID from the URL
     def set_order
       @order = Order.find(params[:id])
     end
 
-    # Finds the laundromat for new or creating an order
     def set_laundromat
       @laundromat = Laundromat.find(params[:laundromat_id])
     end
 
-    # Accepts only the allowed fields from the order form (strong params)
   def order_params
     params.require(:order).permit(
       :pickup_time,
@@ -119,17 +116,15 @@ class OrdersController < ApplicationController
     )
   end
 
-    # Accepts only the delivery and pickup time fields when confirming an order
+
     def confirm_order_params
       params.require(:order).permit(:pickup_time, :delivery_time)
     end
 
-    # Calculates the total cost by multiplying quantity × price for each item
     def calculate_total_price(order_items)
       order_items.map { |item| item.quantity.to_i * item.price.to_f }.sum
     end
 
-    # Checks if the current user is allowed to view or manage the order
     def can_view_order?(order)
       current_user.admin? ||
         order.user == current_user ||

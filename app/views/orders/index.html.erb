@@ -1,4 +1,5 @@
 
+<h1>Your Orders</h1>
 
 <p><%= link_to "Browse Laundromats", laundromats_path %></p>
 
@@ -10,24 +11,19 @@
     <p><strong>Pickup Time:</strong> <%= order.pickup_time %></p>
     <p><strong>Delivery Time:</strong> <%= order.delivery_time %></p>
     <p><%= link_to 'View Order', order_path(order) %></p>
+
     <% if order.status == "pending" %>
       <%= form_with url: cancel_order_path(order), method: :patch do %>
-  <%= submit_tag "Cancel Order" %>
-<% end %>
+        <%= submit_tag "Cancel Order" %>
+      <% end %>
     <% end %>
   </div>
   <hr>
->>>>>>> 992471c028ed8bbfc0c552df066d09c95883e752
+<% end %>
 
 <% if @bags.any? %>
-<h2>Clients</h2>
-<% else %>
-<p3>4u</p3>
-<% end %>
-=======
-<h1>Your Orders</h1>
-<% end %>
-<% if @bags.any? %>
+  <h2>Clients</h2>
+
   <table class="table">
     <thead>
       <tr>
@@ -52,5 +48,25 @@
       <% end %>
     </tbody>
   </table>
+
 <% else %>
   <p>You have no deliveries yet.</p>
+
+  <% @bags.each do |order| %>
+    <div>
+      <p><strong>Order ID:</strong> <%= order.id %></p>
+      <p><strong>Status:</strong> <%= order.status %></p>
+      <p><strong>Total Price:</strong> R<%= order.total_price %></p>
+      <p><strong>Pickup Time:</strong> <%= order.pickup_time %></p>
+      <p><strong>Delivery Time:</strong> <%= order.delivery_time %></p>
+      <p><%= link_to 'View Order', order_path(order) %></p>
+
+      <% if order.status == "pending" %>
+        <%= form_with url: cancel_order_path(order), method: :patch do %>
+          <%= submit_tag "Cancel washload" %>
+        <% end %>
+      <% end %>
+    </div>
+    <hr>
+  <% end %>
+<% end %>
