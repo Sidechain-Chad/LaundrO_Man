@@ -1,38 +1,23 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid">
-    <%# This link now points to your home page %>
-    <%= link_to root_path, class: "navbar-brand" do %>
-      <%= image_tag "Adobe Express - file.png", width: 250 %>
+<nav class="navbar">
+  <div class="navbar-left">
+    <%= link_to root_path, class: "navbar-logo" do %>
+      Laundroman
+    <% end %>
+  </div>
+  <div class="navbar-links">
+    <%= link_to laundromats_path, class: "navbar-link" do %>
+      <i class="fa-solid fa-building"></i> Laundromats
+    <% end %>
+    <%= link_to new_laundromat_path, class: "navbar-link" do %>
+      <i class="fa-solid fa-plus-circle"></i> Add New
+    <% end %>
+    <%= link_to edit_user_registration_path, class: "navbar-link" do %>
+      <i class="fa-solid fa-user"></i> Account
     <% end %>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item active">
-          </li>
-          <li class="nav-item">
-            <%= link_to "Messages", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item dropdown">
-            <a href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              🗑️
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+    <%# The corrected logout link %>
+    <%= link_to destroy_user_session_path, data: {turbo_method: :delete}, class: "navbar-link" do %>
+      <i class="fa-solid fa-right-from-bracket"></i> Logout
+    <% end %>
   </div>
-</div>
+</nav>

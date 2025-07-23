@@ -1,11 +1,35 @@
 
 // app/assets/stylesheets/components/_hero.scss
 .hero-section {
-  background-color: #fadb74; // A light, clean background color
-  padding: 80px 0;
+  background-image: image-url('unsplash.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 60vh;
+  padding: 4rem 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+
+  // This pseudo-element creates the dark overlay.
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    // I've made the initial overlay slightly lighter (30%)
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    // This makes the change smooth
+    transition: background-color 0.3s ease;
+  }
+
+  // This makes the overlay darker when you hover over the section
+  &:hover::before {
+    background-color: rgba(0, 0, 0, 0.6); // 60% black overlay
+  }
 }
 
 .hero-container {
@@ -13,9 +37,13 @@
   align-items: center;
   justify-content: center;
   gap: 60px;
-  max-width: 1100px;
+  max-width: 960px; // <-- Change this value from 1100px
   margin: 0 auto;
   padding: 0 20px;
+
+  // This correctly keeps the content on top
+  position: relative;
+  z-index: 2;
 }
 
 .hero-image {
@@ -32,10 +60,11 @@
     font-size: 48px;
     font-weight: bold;
     margin-bottom: 15px;
+    color: rgb(231, 231, 231);
   }
   p {
     font-size: 20px;
-    color: #6c757d;
+    color: #f7f7f8;
     margin-bottom: 30px;
   }
 }

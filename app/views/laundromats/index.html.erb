@@ -1,12 +1,17 @@
-<h1>All Laundromats</h1>
+<div class="container">
+  <h1>All Laundromats</h1>
 
-<% @laundromats.each do |laundromat| %>
-  <div>
-    <h3><%= laundromat.name %></h3>
-    <p><%= laundromat.address %></p>
+  <% @laundromats.each do |laundromat| %>
+    <div class="laundromat-card">
+      <div class="card-content">
+        <h2><%= laundromat.name %></h2>
+        <p><%= laundromat.address %></p>
+      </div>
 
-    <%= link_to "View Details", laundromat_path(laundromat) %><br>
-    <%= link_to "Book This Laundry", new_laundromat_order_path(laundromat) %>
-  </div>
-  <hr>
-<% end %>
+      <div class="card-actions">
+        <%= link_to "View Details", laundromat_path(laundromat), class: "btn btn-secondary" %>
+        <%= link_to "Book This Laundry", new_laundromat_order_path(laundromat), class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>
