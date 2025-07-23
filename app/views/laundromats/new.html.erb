@@ -1,13 +1,28 @@
 <%= simple_form_for(@laundromat) do |f| %>
-  <%= f.input :name %>
-  <%= f.input :address,
-  input_html: {data: {address_autocomplete_target: "address"}},
-  wrapper_html: {data: {controller: "address-autocomplete",
-  address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]}}
-  %>
-  <%= f.input :phone_number %>
-  <%= f.input :photos, as: :file, input_html: { multiple: true } %>
-  <%= f.submit %>
+<div class="d-flex justify-content-around">
+<div class="row">
+  <div class="col">
+    <%= f.input :name %>
+  </div>
+  <div class="col">
+    <%= f.input :address,
+    input_html: {data: {address_autocomplete_target: "address"}, class: "d-none"},
+    wrapper_html: {data: {controller: "address-autocomplete",
+    address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]}}
+    %>
+  </div>
+   <div class="col">
+    <%= f.input :phone_number %>
+  </div>
+  <div id="attach-image">
+    <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+  </div>
+  <div id="create-laundromat">
+    <%= f.submit %>
+  </div>
+  </div>
+  </div>
 <% end %>
+
 
 <%= link_to "Back to all laundromats", laundromats_path %>
