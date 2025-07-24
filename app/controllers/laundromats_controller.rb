@@ -2,12 +2,7 @@ class LaundromatsController < ApplicationController
   def index
     @laundromats = Laundromat.all
     if params[:query].present?
-      sql_subquery = <<~SQL
-        laundromats.name @@ :query
-        OR laundromats.address @@ :query
-      SQL
-      @laundromats = @laundromats.joins(:user).where(sql_subquery, query: params[:query])
-
+      @laundromats = Laundromat.search_by_name_and_address(params[:query])
     end
   end
 

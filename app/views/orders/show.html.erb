@@ -30,7 +30,8 @@
   </tbody>
 </table>
 
-<%# #<%= link_to "Track Order", tracking_order_path(@order), class: "btn btn-sm btn-info" %> %>
+<%# <%= link_to "Track Order", tracking_order_path(@order), class: "btn btn-sm btn-info" %> %>
+
 <%= link_to "Back to Orders", orders_path, class: "btn btn-sm btn-secondary" %>
 
 <div class ="container chat">
@@ -45,7 +46,7 @@
     placeholder: "Message #{other_user.first_name}",
     wrapper_html: {class: "flex-grow-1"}
   %>
-  <%= f.submit "Send", class: "btn btn-primary mb-3" %>
+  <%= submit_tag "Send", content: "", class: "btn btn-primary mb-3" %>
 <% end %>
 <%= turbo_stream_from "order_#{@order.id}_messages" %>
 <div id="messages" class="messages">

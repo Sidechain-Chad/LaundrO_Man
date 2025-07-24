@@ -6,7 +6,7 @@
   <%= f.input :pickup_time %>
   <%= f.submit %>
 <% end %>
-<!--Booking Button-->
+
 <%= link_to "Book a Laundry Pickup", new_laundromat_order_path(@laundromat), class: "btn btn-success mt-3" %>
 <% if @orders.exists? %>
   <h3>Your orders</h3>

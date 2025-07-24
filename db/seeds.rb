@@ -18,12 +18,10 @@ Review.destroy_all
 Laundromat.destroy_all
 User.destroy_all
 
-# Cape Town locations and names
 CAPE_TOWN_AREAS = ["Gardens", "Sea Point", "Green Point", "Claremont", "Rondebosch", "Observatory", "Woodstock"]
 SA_NAMES = ["Ndlovu", "Van der Merwe", "Smith", "Jacobs", "Petersen", "Khumalo", "Van Niekerk"]
 SA_FIRST_NAMES = ["Lerato", "Thando", "Sipho", "Johannes", "Pieter", "Bongani", "Amina"]
 
-# Clothing items focused on pants/jeans/underwear
 CLOTHING_ITEMS = [
   { name: "T-Shirt", price: 25 },
   { name: "Shirt", price: 28 },
@@ -65,8 +63,6 @@ CLOTHING_ITEMS = [
   { name: "Rug (Small)", price: 110 },
   { name: "Rug (Large)", price: 180 }
 ]
-
-# Create Users
 puts "Creating users..."
 puts User.count
 puts Laundromat.count
@@ -74,7 +70,7 @@ puts Order.count
 puts OrderTracking.count
 puts Review.count
 puts OrderItem.count
-# Admin
+
 User.create!(
   email: "admin@example.com",
   password: "password",
@@ -84,7 +80,6 @@ User.create!(
   role: :admin
 )
 
-# Owners (3)
 owners = 3.times.map do |i|
   User.create!(
     email: "owner#{i+1}@example.com",
@@ -108,7 +103,6 @@ end
 #   )
 # end
 
-# Customers (10)
 customers = 10.times.map do |i|
   User.create!(
     email: "customer#{i+1}@example.com",
@@ -120,7 +114,6 @@ customers = 10.times.map do |i|
   )
 end
 
-# Create Laundromats
 puts "Creating laundromats..."
 laundromats = [
   "Cape Wash & Fold",
@@ -135,7 +128,6 @@ laundromats = [
   )
 end
 
-# Create Orders
 puts "Creating orders..."
 order_statuses = ["pending", "processing", "in_transit", "delivered"]
 
@@ -149,7 +141,6 @@ order_statuses = ["pending", "processing", "in_transit", "delivered"]
     total_price: 0
   )
 
-  # Add pants/jeans/underwear items
   order_total = 0
   rand(3..8).times do
     item = CLOTHING_ITEMS.sample
@@ -167,7 +158,6 @@ order_statuses = ["pending", "processing", "in_transit", "delivered"]
 
   order.update(total_price: order_total)
 
-  # Create tracking
   status_index = order_statuses.index(order.status)
   order_statuses[0..status_index].each_with_index do |status, i|
     OrderTracking.create!(

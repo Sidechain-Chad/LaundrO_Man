@@ -39,7 +39,7 @@
       <% @bags.each do |order| %>
         <tr>
           <td><%= order.laundromat.name %></td>
-          <td><%= order.status.capitalize %></td>
+          <td><%= order.status.try(:capitalize) || "N/A" %></td>
           <td><%= l(order.pickup_time, format: :short) %></td>
           <td><%= l(order.delivery_time, format: :short) %></td>
           <td>R<%= order.total_price %></td>

@@ -3,9 +3,6 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :confirmation, :confirm, :cancel]
   before_action :set_laundromat, only: [:new, :create]
 
-  # Shows a list of orders:
-  # - Admins see all orders
-  # - Other users see only their own
   def index
     scope = current_user.admin? ? Order : current_user.orders
     @orders = scope.includes(:laundromat, :order_items)
@@ -128,6 +125,6 @@ class OrdersController < ApplicationController
     def can_view_order?(order)
       current_user.admin? ||
         order.user == current_user ||
-        order.laundromat.owner_id == current_user.id
+        order.laundromat.user_id == current_user.id
     end
   end
