@@ -1,10 +1,48 @@
-<h2><%= @laundromat.name %></h2>
-<p><%= @laundromat.address %></p>
-<p><strong>Reviews</strong></p>
-<ul class="list-group">
-  <% @laundromat.reviews.each do |review| %>
-    <li class="list-group-item"><%= review.content %></li>
-  <% end %>
-  <%= link_to "Back to all laundromats", laundromats_path %>
-</ul>
-<br>
+<div class="laundromat-container text-center" style="max-width: 700px;">
+  <h2 class="mb-3"><%= @laundromat.name %></h2>
+  <p class="text-muted mb-4"><%= @laundromat.address.present? ? @laundromat.address : "Address not available" %></p>
+
+  <div class="photo-gallery d-flex justify-content-center">
+    <% if @laundromat.photos.any? %>
+      <% @laundromat.photos.each do |photo| %>
+        <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill, class: "img-fluid" %>
+      <% end %>
+    <% else %>
+      <p class="text-muted">No photos available</p>
+    <% end %>
+  </div>
+
+  <h3 class="mt-4 mb-3">Customer Reviews</h3>
+  <ul class="list-group mb-4 mx-auto" style="max-width: 600px;">
+    <% if @laundromat.reviews.any? %>
+      <% @laundromat.reviews.each do |review| %>
+        <li class="list-group-item text-start">
+          <div class="d-flex justify-content-between align-items-center">
+            <span><%= review.content %></span>
+            <span class="badge bg-primary rounded-pill"><%= review.rating %> ★</span>
+          </div>
+        </li>
+      <% end %>
+    <% else %>
+      <li class="list-group-item text-muted text-center">No reviews yet</li>
+    <% end %>
+  </ul>
+
+  <div class="action-links d-flex justify-content-center gap-2">
+    <%= link_to "Reserve Laundry", new_laundromat_order_path(@laundromat), class: "btn btn-primary" %>
+    <%= link_to "View All Laundromats", laundromats_path, class: "btn btn-secondary" %>
+    <%= link_to "Remove Laundromat", laundromat_path(@laundromat), class: "btn btn-danger", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+  </div>
+
+  <div class="review-form mx-auto" style="max-width: 500px;">
+    <%= simple_form_for [@laundromat, @review] do |f| %>
+      <div class="mb-3 text-start">
+        <%= f.input :content, label: "Share Your Feedback", input_html: { class: "form-control" } %>
+      </div>
+      <div class="mb-3 text-start">
+        <%= f.input :rating, collection: (1..5).to_a, label: "Rate This Laundromat", input_html: { class: "form-select", data: { controller: "star-rating" } } %>
+      </div>
+      <%= f.submit "Add Review", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+// File: app/assets/stylesheets/pages/_laundromats_index.scss
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto; /* Centers the container with space on top/bottom */
+    padding: 0 1rem;
+}
+
+.laundromat-card {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px; /* Rounded corners */
+    padding: 1.5rem;
+    margin-bottom: 1.5rem; /* Space between cards */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.2s ease-in-out;
+
+    &:hover {
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
+    }
+}
+
+.card-content {
+    h2 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    p {
+        margin: 0;
+        color: #6c757d;
+    }
+}
+
+.card-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: #00A3FF;
+    color: #ffffff;
+
+    &:hover {
+        background-color: #008ad9;
+    }
+}
+
+.btn-secondary {
+    background-color: #ffffff;
+    color: #00A3FF;
+    border: 1px solid #00A3FF;
+
+    &:hover {
+        background-color: #e6f6ff;
+    }
+}

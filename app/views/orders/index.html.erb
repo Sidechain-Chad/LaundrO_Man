@@ -1,0 +1,25 @@
+<%# The "Create Laundromat" button can go here %>
+<%= link_to "Create Laundromat", new_laundromat_path, class: "btn btn-primary mb-4" %>
+
+<%# Loop through each laundromat %>
+<% @laundromats.each do |laundromat| %>
+  <div class="laundromat-card">
+    <%# Image placeholder on the left %>
+    <div class="laundromat-image-placeholder">
+      <span>No Photo</span>
+    </div>
+
+    <%# All text info and buttons on the right %>
+    <div class="laundromat-info">
+      <div class="card-content">
+        <h2><%= link_to laundromat.name, laundromat_path(laundromat), class: "laundromat-title" %></h2>
+        <p class="laundromat-address"><i class="fa-solid fa-location-dot"></i> <%= laundromat.address %></p>
+        <p class="laundromat-description">Product description with relevant info only.</p>
+      </div>
+      <div class="card-actions">
+        <%= link_to "View Details", laundromat_path(laundromat), class: "btn btn-secondary" %>
+        <%= link_to "Book Now", new_laundromat_order_path(laundromat), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+<% end %>

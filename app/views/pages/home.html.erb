@@ -1,16 +1,20 @@
-<%# The main container for the page content %>
+<%# File: app/views/pages/home.html.erb %>
+
 <div class="page-container">
 
-  <%# HERO SECTION: Split layout with logo on the left and text on the right %>
+  <%# HERO SECTION: This is the corrected version %>
   <section class="hero-section">
     <div class="hero-container">
       <div class="hero-image">
-        <%= image_tag "laundryman_logo.png", alt: "LaundryMan Logo" %>
+        <%# I've chosen one logo file, you can change it if needed %>
+        <%= image_tag "Adobe Express - file.png", alt: "LaundryMan Logo" %>
       </div>
       <div class="hero-content">
         <h1>Your One-Stop Laundry Solution</h1>
         <p>Fresh clothes, easy living. Schedule a pickup in minutes.</p>
-        
+        <%= link_to laundromats_path, class: "btn btn-primary" do %>
+          <i class="bi bi-search"></i> Browse Laundromats
+        <% end %>
       </div>
     </div>
   </section>
@@ -43,26 +47,4 @@
       </div>
     </div>
   </section>
-
-  <%# LAUNDROMATS ON OFFER: Modern card layout %>
-  <section class="laundromat-list">
-    <div class="container">
-      <h2>Laundromats Near Me</h2>
-      <div class="laundromat-grid">
-        <div class="laundromat-card">
-          <h3>Quick Wash Laundromat</h3>
-          <p>123 Main St, Cape Town</p>
-        </div>
-        <div class="laundromat-card">
-          <h3>Bubble & Clean</h3>
-          <p>456 Oak Ave, Claremont</p>
-        </div>
-        <div class="laundromat-card">
-          <h3>Fresh Spin Laundry</h3>
-          <p>789 Fire Rd, Rondebosch</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
 </div>

@@ -1,0 +1,19 @@
+<h1>Order Details</h1>
+
+<p><strong>Status:</strong> <%= @order.status %></p>
+<p><strong>Total Price:</strong> R<%= @order.total_price %></p>
+<p><strong>Pickup Time:</strong> <%= @order.pickup_time %></p>
+<p><strong>Delivery Time:</strong> <%= @order.delivery_time %></p>
+
+<h2>Items</h2>
+<ul>
+  <% @order.order_items.each do |item| %>
+    <li>
+      <strong>Item Type:</strong> <%= item.item_type %>,
+      <strong>Quantity:</strong> <%= item.quantity %>,
+      <strong>Price per Item:</strong> R<%= item.price %>
+    </li>
+  <% end %>
+</ul>
+
+<p><%= link_to 'Back to Orders', orders_path %></p>

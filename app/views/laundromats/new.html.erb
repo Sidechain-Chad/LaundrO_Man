@@ -1,6 +1,38 @@
-<%= simple_form_for(@laundromat) do |f| %>
-  <%= f.input :name %>
-  <%= f.input :address %>
-  <%= f.input :phone_number %>
-  <%= f.submit %>
-<% end %>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+
+      <div class="form-card">
+        <h1 class="text-center mb-4">Create a New Laundromat</h1>
+
+        <%= form_with(model: @laundromat) do |form| %>
+          <div class="form-group mb-3">
+            <%= form.label :name %>
+            <%= form.text_field :name, class: 'form-control' %>
+          </div>
+
+          <div class="form-group mb-3">
+            <%= form.label :address %>
+            <%= form.text_field :address, class: 'form-control' %>
+          </div>
+
+          <div class="form-group mb-3">
+            <%= form.label :phone_number %>
+            <%= form.text_field :phone_number, class: 'form-control' %>
+          </div>
+
+          <div class="form-group mb-4">
+            <%= form.label :photos %>
+            <%= form.file_field :photos, multiple: true, class: 'form-control' %>
+          </div>
+
+          <div class="d-grid gap-2">
+            <%= form.submit "Create Laundromat", class: "btn btn-primary btn-lg" %>
+            <%= link_to "Back to all laundromats", laundromats_path, class: "btn btn-link text-center" %>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
