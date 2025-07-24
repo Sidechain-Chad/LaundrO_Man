@@ -4,7 +4,7 @@
   data-map-markers-value="<%= @markers.to_json %>"
   data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
 </div>
-<%= link_to "Create Laundromat", new_laundromat_path, class: "btn btn-primary" %>
+<div class="margin-right"><%= link_to "Create Laundromat", new_laundromat_path, class: "btn btn-primary" %></div>
 
 <% @laundromats.each do |laundromat| %>
 <div style="grid-template-columns: 1fr 1fr;" class="d-grid gap-3">
