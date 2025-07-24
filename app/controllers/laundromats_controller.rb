@@ -9,6 +9,10 @@ class LaundromatsController < ApplicationController
         marker_html: render_to_string(partial: "marker", locals: { laundromat: laundromat })
       }
     end
+
+    if params[:query].present?
+      @laundromats = Laundromat.search_by_name_and_address(params[:query])
+    end
   end
 
   def show
