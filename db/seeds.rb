@@ -8,32 +8,21 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 # db/seeds.rb
-<<<<<<< HEAD
-require 'faker'
-puts "Cleaning database..."
-Message.destroy_all
-OrderItem.destroy_all
-=======
 require "open-uri"
 require "faker"
 
 puts "🧹 Cleaning database..."
 
 Review.destroy_all
->>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
 OrderTracking.destroy_all
 OrderItem.destroy_all
 Order.destroy_all
-Review.destroy_all
 Laundromat.destroy_all
 User.destroy_all
 
-<<<<<<< HEAD
-=======
 # -----------------------------------
 puts "🔧 Constants setup..."
 
->>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
 CAPE_TOWN_AREAS = ["Gardens", "Sea Point", "Green Point", "Claremont", "Rondebosch", "Observatory", "Woodstock"]
 SA_NAMES = ["Ndlovu", "Van der Merwe", "Smith", "Jacobs", "Petersen", "Khumalo", "Van Niekerk"]
 SA_FIRST_NAMES = ["Lerato", "Thando", "Sipho", "Johannes", "Pieter", "Bongani", "Amina"]
@@ -79,24 +68,11 @@ CLOTHING_ITEMS = [
   { name: "Rug (Small)", price: 110 },
   { name: "Rug (Large)", price: 180 }
 ]
-<<<<<<< HEAD
-puts "Creating users..."
-puts User.count
-puts Laundromat.count
-puts Order.count
-puts OrderTracking.count
-puts Review.count
-puts OrderItem.count
-
-User.create!(
-  email: "admin@example.com",
-=======
 
 # -----------------------------------
 puts "👤 Creating admin..."
 
 User.create_with(
->>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
   password: "password",
   first_name: "Admin",
   last_name: "User",
@@ -104,11 +80,6 @@ User.create_with(
   role: :admin
 ).find_or_create_by!(email: "admin@example.com")
 
-<<<<<<< HEAD
-owners = 3.times.map do |i|
-  User.create!(
-    email: "owner#{i+1}@example.com",
-=======
 # -----------------------------------
 puts "🧍 Creating laundromat owners..."
 
@@ -147,7 +118,6 @@ laundromats = []
 owners_data.each do |data|
   owner = User.create!(
     email: data[:email],
->>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
     password: "password",
     first_name: data[:first_name],
     last_name: data[:last_name],
@@ -185,11 +155,7 @@ end
 # -----------------------------------
 puts "🧍 Creating customers..."
 
-<<<<<<< HEAD
-customers = 10.times.map do |i|
-=======
 customers = 6.times.map do
->>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
   User.create!(
     email: Faker::Internet.unique.email,
     password: "password",
@@ -200,24 +166,6 @@ customers = 6.times.map do
   )
 end
 
-<<<<<<< HEAD
-puts "Creating laundromats..."
-laundromats = [
-  "Cape Wash & Fold",
-  "Table Mountain Laundry",
-  "V&A Laundromat"
-].map.with_index do |name, i|
-  Laundromat.create!(
-    name: name,
-    address: "#{rand(1..100)} #{['Bree', 'Long'].sample} St, #{CAPE_TOWN_AREAS.sample}, 8000",
-    phone_number: "+27 #{rand(60..89)} #{rand(100..999)} #{rand(1000..9999)}",
-    user: owners.sample
-  )
-end
-
-puts "Creating orders..."
-order_statuses = ["pending", "processing", "in_transit", "delivered"]
-=======
 # -----------------------------------
 puts "📦 Creating orders, items, tracking and reviews..."
 
@@ -226,7 +174,6 @@ statuses = ["pending", "processing", "in_transit", "delivered"]
 20.times do
   customer = customers.sample
   laundromat = laundromats.sample
->>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
 
   order = Order.create!(
     user: customer,
@@ -237,13 +184,8 @@ statuses = ["pending", "processing", "in_transit", "delivered"]
     total_price: 0
   )
 
-<<<<<<< HEAD
-  order_total = 0
-  rand(3..8).times do
-=======
   total = 0
   rand(3..6).times do
->>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
     item = CLOTHING_ITEMS.sample
     quantity = rand(1..4)
     price = item[:price] * quantity
@@ -259,14 +201,9 @@ statuses = ["pending", "processing", "in_transit", "delivered"]
 
   order.update!(total_price: total)
 
-<<<<<<< HEAD
-  status_index = order_statuses.index(order.status)
-  order_statuses[0..status_index].each_with_index do |status, i|
-=======
   # Add tracking history based on current status
   status_index = statuses.index(order.status)
   statuses[0..status_index].each_with_index do |s, i|
->>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
     OrderTracking.create!(
       order: order,
       status: s,

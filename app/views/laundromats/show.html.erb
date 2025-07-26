@@ -1,6 +1,5 @@
 <h2><%= @laundromat.name %></h2>
 <p><%= @laundromat.address %></p>
-<<<<<<< HEAD
 <p><%= @laundromat.phone_number %></p>
 <h2>Book this <%= @laundromat.name %></h2>
 <%= simple_form_for [@laundromat, @order] do |f| %>
@@ -16,10 +15,10 @@
       <li><%= link_to order.created_at.strftime("%a %b %e"), order %></li>
     <% end %>
   </ul>
-=======
+
 <% @laundromat.photos.each do |photo| %>
       <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
->>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
+
 <% end %>
 <p><strong>Reviews</strong></p>
 <ul class="list-group">
