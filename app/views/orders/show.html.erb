@@ -1,58 +1,59 @@
-<!--<h1>Orders#show</h1>
-<p>Find me in app/views/orders/show.html.erb</p>
--->
+<!-- orders/show.html.erb -->
 
-<h1>Order ##<%= @order.id %></h1>
+<div class="container my-5">
+  <div class="card shadow p-4 mb-4">
+    <h1 class="mb-4">Order #<%= @order.id %></h1>
 
-<p><strong>Status:</strong> <%= @order.status.capitalize %></p>
-<p><strong>Laundromat:</strong> <%= @order.laundromat.name %></p>
-<p><strong>Pickup Time:</strong> <%= l(@order.pickup_time, format: :short) %></p>
-<p><strong>Delivery Time:</strong> <%= l(@order.delivery_time, format: :short) %></p>
-<p><strong>Total Price:</strong> R<%= @order.total_price %></p>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Status:</strong> <%= @order.status.capitalize %></li>
+      <li class="list-group-item"><strong>Laundromat:</strong> <%= @order.laundromat.name %></li>
+      <li class="list-group-item"><strong>Pickup Time:</strong> <%= l(@order.pickup_time, format: :short) %></li>
+      <li class="list-group-item"><strong>Delivery Time:</strong> <%= l(@order.delivery_time, format: :short) %></li>
+      <li class="list-group-item"><strong>Total Price:</strong> R<%= @order.total_price %></li>
+    </ul>
+  </div>
 
-<h2>Items</h2>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Item Type</th>
-      <th>Quantity</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @order.order_items.each do |item| %>
-      <tr>
-        <td><%= item.item_type %></td>
-        <td><%= item.quantity %></td>
-        <td>R<%= item.price %></td>
-      </tr>
+  <div class="card shadow p-4 mb-4">
+    <h2 class="mb-3">Order Items</h2>
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>Item Type</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order.order_items.each do |item| %>
+          <tr>
+            <td><%= item.item_type %></td>
+            <td><%= item.quantity %></td>
+            <td>R<%= item.price %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to "Back to Orders", orders_path, class: "btn btn-secondary mt-3" %>
+  </div>
+
+  <div class="card shadow p-4">
+    <h2 class="mb-3">Order Chat</h2>
+    <div id="messages" class="mb-4 p-3 border rounded bg-light" style="max-height: 300px; overflow-y: auto;">
+      <%= turbo_stream_from "order_#{@order.id}_messages" %>
+      <% @messages.each do |message| %>
+        <%= render "messages/message", message: message, user: current_user %>
+      <% end %>
+    </div>
+
+    <%= simple_form_for [@order, @message], html: { class: "d-flex gap-2 align-items-end" } do |f| %>
+      <% other_user = current_user == @order.user ? @order.laundromat.user : @order.user %>
+      <%= f.input :body,
+          label: false,
+          placeholder: "Message #{other_user.first_name}",
+          input_html: { class: "form-control" },
+          wrapper_html: { class: "flex-grow-1 mb-0" }
+      %>
+      <%= f.button :submit, "Send", class: "btn btn-primary mb-3" %>
     <% end %>
-  </tbody>
-</table>
-
-<%# <%= link_to "Track Order", tracking_order_path(@order), class: "btn btn-sm btn-info" %> %>
-
-<%= link_to "Back to Orders", orders_path, class: "btn btn-sm btn-secondary" %>
-
-<div class ="container chat">
-   <p>order chat room</p>
-
-<%= simple_form_for [@order, @message],
-  html: {class: "d-flex"} do |f|
-%>
-  <% other_user = current_user == @order.user ? @order.laundromat.user : @order.user %>
-  <%= f.input :body,
-    label: false,
-    placeholder: "Message #{other_user.first_name}",
-    wrapper_html: {class: "flex-grow-1"}
-  %>
-  <%= submit_tag "Send", body: "", class: "btn btn-primary mb-3" %>
-<% end %>
-<%= turbo_stream_from "order_#{@order.id}_messages" %>
-<div id="messages" class="messages">
-
-<% @messages.each do |message| %>
-  <%= render "messages/message", message: message, user: current_user %>
-<% end %>
-
+  </div>
 </div>
