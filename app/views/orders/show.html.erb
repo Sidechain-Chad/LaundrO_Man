@@ -41,12 +41,12 @@
   html: {class: "d-flex"} do |f|
 %>
   <% other_user = current_user == @order.user ? @order.laundromat.user : @order.user %>
-  <%= f.input :content,
+  <%= f.input :body,
     label: false,
     placeholder: "Message #{other_user.first_name}",
     wrapper_html: {class: "flex-grow-1"}
   %>
-  <%= submit_tag "Send", content: "", class: "btn btn-primary mb-3" %>
+  <%= submit_tag "Send", body: "", class: "btn btn-primary mb-3" %>
 <% end %>
 <%= turbo_stream_from "order_#{@order.id}_messages" %>
 <div id="messages" class="messages">
