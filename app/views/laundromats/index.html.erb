@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+<!--<Search Bar-->
+
+>>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
 <div class="row justify-content-center">
   <div class="col-sm-8 my-3">
     <%= form_with url: laundromats_path, method: :get, class: "d-flex" do %>
@@ -8,6 +13,7 @@
         %>
       <%= submit_tag "Search", name: "", class: "btn btn-primary" %>
     <% end %>
+<<<<<<< HEAD
   </div>
 </div>
 <div class="laundromats-container">
@@ -26,3 +32,36 @@
     </div>
   <% end %>
 </div>
+=======
+
+<!--Index-->
+
+<div style="width: 100%; height: 300px;"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+</div>
+<div class="margin-right"><%= link_to "Create Laundromat", new_laundromat_path, class: "btn btn-primary" %></div>
+
+<% @laundromats.each do |laundromat| %>
+<div style="grid-template-columns: 1fr 1fr;" class="d-grid gap-3">
+ <div class="p-2">
+  <div class="card-product">
+    <% if laundromat.photos.attached? %>
+      <% laundromat.photos.each do |photo| %>
+        <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
+      <% end %>
+    <% else %>
+      <p>No photos available</p>
+    <% end %>
+
+    <div class="card-product-infos">
+      <h2><%= link_to laundromat.name, laundromat_path(laundromat) %></h2>
+      <p><%= laundromat.address %></p>
+      <p>Product description with <strong>relevant info</strong> only.</p>
+   </div>
+  </div>
+  </div>
+</div>
+<% end %>
+>>>>>>> 7d0b4326b40516846af396f1bcddf456edf185d3
