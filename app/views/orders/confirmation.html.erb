@@ -1,49 +1,65 @@
-<h1>Confirm Your Order</h1>
 
-<% if @order && @order.order_items.any? %>
-  <ul>
-    <% @order.order_items.each do |item| %>
-      <li><%= item.item_type %> - <%= item.quantity %> × R<%= item.price %></li>
+
+<div class="order-confirmation-container">
+  <h1>Confirm Your Order</h1>
+
+  <% if @order && @order.order_items.any? %>
+    <div class="order-summary">
+      <h2>Order Summary</h2>
+      <ul class="order-items-list">
+        <% @order.order_items.each do |item| %>
+          <li><%= item.item_type %> – <%= item.quantity %> × R<%= item.price %></li>
+        <% end %>
+      </ul>
+      <p class="total-price"><strong>Total:</strong> R<%= @order.total_price %></p>
+    </div>
+
+    <%= simple_form_for @order, url: confirm_order_path(@order), method: :post, html: { class: "order-form" } do |f| %>
+      <% @order.order_items.each_with_index do |item, index| %>
+        <%= hidden_field_tag "order[order_items_attributes][#{index}][item_type]", item.item_type %>
+        <%= hidden_field_tag "order[order_items_attributes][#{index}][quantity]", item.quantity %>
+        <%= hidden_field_tag "order[order_items_attributes][#{index}][price]", item.price %>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.input :pickup_time, as: :string, label: "Pickup Date", input_html: {
+          data: {
+            controller: "datepicker",
+            flatpickr_enable_time_value: "true",
+            flatpickr_date_format_value: "Y-m-d H:i"
+          },
+          autocomplete: "off"
+        } %>
+      </div>
+
+      <div class="form-group">
+        <%= f.input :delivery_time, as: :string, label: "Delivery Date", input_html: {
+          data: {
+            controller: "datepicker",
+            flatpickr_enable_time_value: "true",
+            flatpickr_date_format_value: "Y-m-d H:i"
+          },
+          autocomplete: "off"
+        } %>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="confirm-btn full-width">
+          <i class="fa-solid fa-check-circle"></i> Confirm Order
+        </button>
+      </div>
     <% end %>
-  </ul>
 
-  <p><strong>Total Price:</strong> R<%= @order.total_price %></p>
+    <div class="order-links half-split">
+      <%= link_to edit_order_path(@order), class: "edit-btn" do %>
+        <i class="fa-solid fa-pen"></i> Edit Order
+      <% end %>
 
-<%= simple_form_for @order, url: confirm_order_path(@order), method: :post do |f| %>
-  <% @order.order_items.each_with_index do |item, index| %>
-    <%= hidden_field_tag "order[order_items_attributes][#{index}][item_type]", item.item_type %>
-    <%= hidden_field_tag "order[order_items_attributes][#{index}][quantity]", item.quantity %>
-    <%= hidden_field_tag "order[order_items_attributes][#{index}][price]", item.price %>
+      <%= link_to orders_path, class: "cancel-btn" do %>
+        <i class="fa-solid fa-trash"></i> Cancel
+      <% end %>
+    </div>
+  <% else %>
+    <p>No order details found.</p>
   <% end %>
-
-  <div class="mb-4">
-    <%= f.input :pickup_time, as: :string, label: "Pickup Date", input_html: {
-      data: {
-        controller: "datepicker",
-        flatpickr_enable_time_value: "true",
-        flatpickr_date_format_value: "Y-m-d H:i"
-      },
-      autocomplete: "off"
-    } %>
-  </div>
-
-  <div class="mb-4">
-    <%= f.input :delivery_time, as: :string, label: "Delivery Date", input_html: {
-      data: {
-        controller: "datepicker",
-        flatpickr_enable_time_value: "true",
-        flatpickr_date_format_value: "Y-m-d H:i"
-      },
-      autocomplete: "off"
-    } %>
-  </div>
-
-  <%= f.button :submit, "Confirm Order", class: "btn btn-primary" %>
-<% end %>
-
-  <br>
-  <%= link_to "Edit Order", edit_order_path(@order), method: :get %>
-  <%= link_to "Cancel", orders_path, method: :get %>
-<% else %>
-  <p>No order details found.</p>
-<% end %>
+</div>
