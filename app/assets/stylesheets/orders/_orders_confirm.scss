@@ -76,14 +76,20 @@ body, h1, h2, h3, h4, h5, h6, p, a, button, input, textarea {
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  transition: transform 0.3s ease;
 
   &:hover {
     background-color: #218838;
+    transform: scale(1.05);
   }
 
   &:focus-visible {
     outline: 3px solid #28a745;
     outline-offset: 2px;
+  }
+
+  &:active {
+    transform: scale(0.96);
   }
 }
 
