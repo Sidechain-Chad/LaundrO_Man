@@ -1,74 +1,68 @@
 .chat {
+  background: white;
+  margin-top: 9px;
+  height: calc(100vh - 75px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
 
-    background: white;
-    margin-top: 9px;
-    height: calc(100vh - 75px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
+  h1 {
+    border-bottom: 1px solid $gray-200;
+    margin-bottom: 0;
+    padding: 1rem;
+  }
 
-    h1 {
-      border-bottom: 1px solid $gray-200;
+  .messages {
+    height: 100%;
+    overflow: scroll;
+    padding: 1rem;
+  }
+
+  #new_message {
+    border-top: 1px solid $gray-200;
+    padding: 1rem;
+
+    .form-group {
       margin-bottom: 0;
-      padding: 1rem;
     }
-
-    .messages {
-      height: 100%;
-      overflow: scroll;
-      padding: 1rem;
-    }
-
-    #new_message {
-      border-top: 1px solid $gray-200;
-      padding: 1rem;
-
-      .form-group {
-        margin-bottom: 0;
-      }
-    }
-
-    .messages {
-      max-height: 300px;
-      overflow-y: auto;
-      background: #f8f9fa;
-      padding: 1rem;
-      border-radius: 0.5rem;
-    }
-
-
-  .message-info {
-    opacity: 0.5;
-    text-align: center;
-    width: fit-content;
   }
-
-  .message-content {
-    border-radius: 1rem;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    max-width: 70%;
-    width: fit-content;
-    word-wrap: break-word;
-  }
-
-  .message.sent .message-content {
-    align-self: flex-end;
-    background: $blue;
-    color: $light-gray;
-  }
-
-  .message.received .message-content {
-    align-self: flex-start;
-    background: $gray-200;
-  }
-
-  .texts {
-    background: #f8f9fa;
-  }
-
 }
+
+    .message {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      width: 100%;
+    }
+
+    .message-info {
+      opacity: 0.5;
+      align-self: center;
+      width: fit-content;
+    }
+
+    .message-body {
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      max-width: 70%;
+      width: fit-content;
+      word-wrap: break-word;
+    }
+
+    .message.sent .message-body {
+      align-self: flex-end;
+      background: $blue;
+      color: $light-gray;
+    }
+
+    .message.received .message-body {
+      align-self: flex-start;
+      background: $gray-200;
+    }
+
+
 // ----------------------------------------
 // STYLES THAT MAKE THE TORN RECEIPT EFFECT
 // ----------------------------------------
@@ -106,6 +100,7 @@ html {
   filter: drop-shadow(0 2px 1px rgba(#000, 0.1));
   max-width: 320px;
   margin: 0 auto;
+  font-family: monospace;
 
   &-list {
     background-color: #fff;
@@ -116,7 +111,6 @@ html {
     border-bottom: 0.5px dashed #ccc;
     line-height: 1;
     overflow: hidden;
-    font-family: monospace;
     font-size: 16px;
 
     &:not(:first-child) {
@@ -126,4 +120,13 @@ html {
 
   &-label { float: left; }
   &-value { float: right; }
+}
+.peach-button {
+  background-color: #E0B966;
+  color: white;
+  border: none;
+}
+
+.peach-button:hover {
+  background-color: #a5843e;
 }
