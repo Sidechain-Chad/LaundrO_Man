@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_29_161109) do
     t.bigint "user_id", null: false
     t.float "latitude"
     t.float "longitude"
+    t.text "decription"
     t.index ["user_id"], name: "index_laundromats_on_user_id"
   end
 
