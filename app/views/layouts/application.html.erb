@@ -12,6 +12,7 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
+<body data-current-user-id="<%= current_user ? current_user.id : "" %>">
 
   <body><%= render "shared/navbar" %>
 <%= render "shared/flashes" %>

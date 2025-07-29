@@ -87,3 +87,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "solid_cable"
+
+gem "pg_search"

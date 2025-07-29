@@ -1,7 +1,24 @@
 <h2><%= @laundromat.name %></h2>
 <p><%= @laundromat.address %></p>
+<p><%= @laundromat.phone_number %></p>
+<h2>Book this <%= @laundromat.name %></h2>
+<%= simple_form_for [@laundromat, @order] do |f| %>
+  <%= f.input :pickup_time %>
+  <%= f.submit %>
+<% end %>
+
+<%= link_to "Book a Laundry Pickup", new_laundromat_order_path(@laundromat), class: "btn btn-success mt-3" %>
+<% if @orders.exists? %>
+  <h3>Your orders</h3>
+  <ul>
+    <% @orders.each do |order| %>
+      <li><%= link_to order.created_at.strftime("%a %b %e"), order %></li>
+    <% end %>
+  </ul>
+
 <% @laundromat.photos.each do |photo| %>
       <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
+
 <% end %>
 <p><strong>Reviews</strong></p>
 <ul class="list-group">
