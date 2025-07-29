@@ -20,12 +20,12 @@ class OrdersController < ApplicationController
     def create
       @order = @laundromat.orders.new(order_params)
       @order.user = current_user
-      @order.status = "pending"
+      @order.status = 0
       @order.total_price = calculate_total_price(@order.order_items)
       @order.laundromat = @laundromat
 
       if @order.save
-        redirect_to confirmation_order_path(@order)
+        redirect_to confirmation_order_path(@order), notice: "Order created with status: #{@order.status}"
       else
         render :new, status: :unprocessable_entity
       end
@@ -107,6 +107,7 @@ class OrdersController < ApplicationController
 
   def order_params
     params.require(:order).permit(
+      :status,
       :pickup_time,
       :delivery_time,
       order_items_attributes: [:id, :item_type, :quantity, :price, :_destroy]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_26_130719) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_29_134539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -88,7 +88,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_26_130719) do
     t.bigint "laundromat_id", null: false
     t.datetime "pickup_time"
     t.datetime "delivery_time"
-    t.string "status"
+    t.string "status", default: 0
     t.decimal "total_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

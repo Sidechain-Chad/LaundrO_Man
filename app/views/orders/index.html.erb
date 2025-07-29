@@ -13,16 +13,11 @@
           <p class="card-text">
             <strong>Status:</strong> <%= order.status %><br>
             <strong>Total Price:</strong> R<%= order.total_price %><br>
-     <strong>Pickup Time:</strong>
-<%= order.pickup_time ? l(order.pickup_time, format: :short) : "Not scheduled" %><br>
+            <strong>Pickup Time:</strong><%= order.pickup_time ? l(order.pickup_time, format: :short) : "Not scheduled" %><br>
+            <strong>Delivery Time:</strong><%= order.delivery_time ? l(order.delivery_time, format: :short) : "Not scheduled" %><br></p>
 
-<strong>Delivery Time:</strong>
-<%= order.delivery_time ? l(order.delivery_time, format: :short) : "Not scheduled" %><br>
-
-          </p>
           <div class="d-flex gap-2">
             <%= link_to 'View Order', order_path(order), class: "btn btn-sm btn-primary" %>
-
             <% if order.status == "pending" %>
               <%= form_with url: cancel_order_path(order), method: :patch, class: "d-inline" do %>
                 <%= submit_tag "Cancel Order", class: "btn btn-sm btn-danger" %>
@@ -56,8 +51,8 @@
             <tr>
               <td><%= order.laundromat.name %></td>
               <td><%= order.status.try(:capitalize) || "N/A" %></td>
-              <td><%= l(order.pickup_time, format: :short) %></td>
-              <td><%= l(order.delivery_time, format: :short) %></td>
+              <td><%= order.pickup_time.present? ? l(order.pickup_time, format: :short) : "N/A" %></td>
+              <td><%= order.delivery_time.present? ? l(order.delivery_time, format: :short) : "N/A" %></td>
               <td>R<%= order.total_price %></td>
               <td>
                 <%= link_to "View", order_path(order), class: "btn btn-sm btn-outline-primary" %>

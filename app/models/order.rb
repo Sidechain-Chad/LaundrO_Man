@@ -8,4 +8,12 @@ class Order < ApplicationRecord
   enum status: { unconfirmed: 0, pending: 1, processing: 2, in_transit: 3, delivered: 4, cancelled: 5 }
 
   accepts_nested_attributes_for :order_items, allow_destroy: true
+
+  after_initialize :set_default_status, if: :new_record?
+
+  private
+
+  def set_default_status
+    self.status ||= :unconfirmed
+  end
 end
