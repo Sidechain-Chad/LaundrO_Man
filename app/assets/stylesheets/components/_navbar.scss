@@ -28,6 +28,17 @@
     text-decoration: none;
     font-family: 'Fredoka', sans-serif;
     font-weight: 700;
+    display: inline-block;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
   }
 
   .navbar-collapse {
