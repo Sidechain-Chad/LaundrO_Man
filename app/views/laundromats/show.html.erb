@@ -14,6 +14,7 @@
     <% @orders.each do |order| %>
       <li><%= link_to order.created_at.strftime("%a %b %e"), order %></li>
     <% end %>
+  <% end %>
   </ul>
 
 <% @laundromat.photos.each do |photo| %>
