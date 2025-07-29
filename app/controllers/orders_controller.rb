@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
     def create
       @order = @laundromat.orders.new(order_params)
       @order.user = current_user
-      @order.status = 0
+      @order.set_default_status
       @order.total_price = calculate_total_price(@order.order_items)
       @order.laundromat = @laundromat
 
