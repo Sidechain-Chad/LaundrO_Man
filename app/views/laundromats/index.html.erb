@@ -12,22 +12,6 @@
 
   </div>
 </div>
-<div class="laundromats-container">
-  <h1>All Laundromats</h1>
-
-  <% @laundromats.each do |laundromat| %>
-    <div class="laundromat-card">
-      <div class="card-content">
-        <h3><%= laundromat.name %></h3>
-        <p><%= laundromat.address %></p>
-      </div>
-      <div class="card-actions">
-        <%= link_to "View Details", laundromat_path(laundromat), class: "btn btn-secondary" %>
-        <%= link_to "Book This Laundry", new_laundromat_order_path(laundromat), class: "btn btn-primary" %>
-      </div>
-    </div>
-  <% end %>
-</div>
 
 <!--Index-->
 
@@ -38,8 +22,10 @@
 </div>
 <div class="margin-right"><%= link_to "Create Laundromat", new_laundromat_path, class: "btn btn-primary" %></div>
 
+<div class="row">
+  <div class="col-md-7">
+    <div class="laundromat-grid">
 <% @laundromats.each do |laundromat| %>
-<div style="grid-template-columns: 1fr 1fr;" class="d-grid gap-3">
  <div class="laundromat-card">
       <div class="card-content">
     <% if laundromat.photos.attached? %>
