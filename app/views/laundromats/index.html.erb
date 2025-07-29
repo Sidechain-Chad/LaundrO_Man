@@ -40,8 +40,8 @@
 
 <% @laundromats.each do |laundromat| %>
 <div style="grid-template-columns: 1fr 1fr;" class="d-grid gap-3">
- <div class="p-2">
-  <div class="card-product">
+ <div class="laundromat-card">
+      <div class="card-content">
     <% if laundromat.photos.attached? %>
       <% laundromat.photos.each do |photo| %>
         <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
@@ -61,5 +61,3 @@
     <% end %>
 
 <!--Index-->
-
-
