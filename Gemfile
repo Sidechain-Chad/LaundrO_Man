@@ -90,4 +90,3 @@ end
 
 gem "solid_cable"
 
-gem "pg_search"
