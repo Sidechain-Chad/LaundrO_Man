@@ -7,8 +7,8 @@
     <ul class="list-group list-group-flush">
       <li class="list-group-item"><strong>Status:</strong> <%= @order.status.capitalize %></li>
       <li class="list-group-item"><strong>Laundromat:</strong> <%= @order.laundromat.name %></li>
-      <li class="list-group-item"><strong>Pickup Time:</strong> <%= l(@order.pickup_time, format: :short) %></li>
-      <li class="list-group-item"><strong>Delivery Time:</strong> <%= l(@order.delivery_time, format: :short) %></li>
+      <li class="list-group-item"><strong>Pickup Time:</strong> <%= @order.pickup_time.present? ? l(@order.pickup_time, format: :short) : "Not scheduled" %></li>
+      <li class="list-group-item"><strong>Delivery Time:</strong> <%= @order.delivery_time.present? ? l(@order.delivery_time, format: :short) : "Not scheduled" %></li>
       <li class="list-group-item"><strong>Total Price:</strong> R<%= @order.total_price %></li>
     </ul>
   </div>
