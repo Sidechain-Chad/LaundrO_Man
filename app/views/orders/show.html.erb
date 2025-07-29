@@ -1,19 +1,60 @@
-<h1>Order Details</h1>
+<!-- orders/show.html.erb -->
 
-<p><strong>Status:</strong> <%= @order.status %></p>
-<p><strong>Total Price:</strong> R<%= @order.total_price %></p>
-<p><strong>Pickup Time:</strong> <%= @order.pickup_time %></p>
-<p><strong>Delivery Time:</strong> <%= @order.delivery_time %></p>
+<div class="container my-5">
+  <div class="card shadow p-4 mb-4">
+    <h1 class="mb-4">Order #<%= @order.id %></h1>
 
-<h2>Items</h2>
-<ul>
-  <% @order.order_items.each do |item| %>
-    <li>
-      <strong>Item Type:</strong> <%= item.item_type %>,
-      <strong>Quantity:</strong> <%= item.quantity %>,
-      <strong>Price per Item:</strong> R<%= item.price %>
-    </li>
-  <% end %>
-</ul>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Status:</strong> <%= @order.status.capitalize %></li>
+      <li class="list-group-item"><strong>Laundromat:</strong> <%= @order.laundromat.name %></li>
+      <li class="list-group-item"><strong>Pickup Time:</strong> <%= @order.pickup_time.present? ? l(@order.pickup_time, format: :short) : "Not scheduled" %></li>
+      <li class="list-group-item"><strong>Delivery Time:</strong> <%= @order.delivery_time.present? ? l(@order.delivery_time, format: :short) : "Not scheduled" %></li>
+      <li class="list-group-item"><strong>Total Price:</strong> R<%= @order.total_price %></li>
+    </ul>
+  </div>
+<div></div>
+  <div class="card shadow p-4 mb-4">
+    <h2 class="mb-3">Order Items</h2>
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>Item Type</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order.order_items.each do |item| %>
+          <tr>
+            <td class="receipt"><%= item.item_type %></td>
+            <td class="receipt"><%= item.quantity %></td>
+            <td  class="receipt">R<%= item.price %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to "Back to Orders", orders_path, class: "btn peach-button" %>
+  </div>
 
-<p><%= link_to 'Back to Orders', orders_path %></p>
+  <div class="card shadow p-4">
+    <h2 class="mb-3">Order Chat</h2>
+    <div id="messages" class="messages" style="max-height: 300px; overflow-y: auto;">
+      <%= turbo_stream_from "order_#{@order.id}_messages" %>
+      <% @messages.each do |message| %>
+        <%= render "messages/message", message: message, user: current_user %>
+      <% end %>
+    </div>
+<div id="texts">
+    <%= simple_form_for [@order, @message], html: { class: "d-flex gap-2 align-items-end" } do |f| %>
+      <% other_user = current_user == @order.user ? @order.laundromat.user : @order.user %>
+      <%= f.input :body,
+          label: false,
+          placeholder: "Message #{other_user.first_name}",
+          input_html: { class: "form-control" },
+          wrapper_html: { class: "flex-grow-1 mb-0" }
+      %>
+      <%= f.button :submit, "Send", class: "btn btn-primary mb-3" %>
+    <% end %>
+      </div>
+  </div>
+</div>
