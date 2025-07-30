@@ -15,6 +15,7 @@
       <li><%= link_to order.created_at.strftime("%a %b %e"), order %></li>
     <% end %>
   </ul>
+  <% end %>
 
 <% @laundromat.photos.each do |photo| %>
       <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
@@ -37,5 +38,3 @@
   <%= f.input :rating, collection: (1..5).to_a, label: "Rate your experience", input_html: {data: {controller: "star-rating"}} %>
   <%= f.submit "Submit review", class: "btn btn-primary" %>
 <% end %>
-</ul>
-<br>
