@@ -5,7 +5,29 @@
     <h1 class="mb-4">Order #<%= @order.id %></h1>
 
     <ul class="list-group list-group-flush">
-      <li class="list-group-item"><strong>Status:</strong> <%= @order.status.capitalize %></li>
+<li class="list-group-item"><strong>Status:</strong>
+  <% if current_user.id == @order.laundromat.user.id %>
+    <div class="dropdown">
+      <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <%= @order.status.capitalize %>
+      </button>
+      <ul class="dropdown-menu">
+        <% Order.statuses.each_key do |status| %>
+          <li>
+            <%= button_to "Mark as #{status.capitalize}", order_path(@order), method: :patch,
+                params: { order: { status: status } },
+                form: { data: { turbo_frame: "_top" } },
+                class: "dropdown-item #{'active' if @order.status == status}" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <%= @order.status.capitalize %>
+  <% end %>
+</li>
+
+</li>
       <li class="list-group-item"><strong>Laundromat:</strong> <%= @order.laundromat.name %></li>
       <li class="list-group-item"><strong>Pickup Time:</strong> <%= @order.pickup_time.present? ? l(@order.pickup_time, format: :short) : "Not scheduled" %></li>
       <li class="list-group-item"><strong>Delivery Time:</strong> <%= @order.delivery_time.present? ? l(@order.delivery_time, format: :short) : "Not scheduled" %></li>

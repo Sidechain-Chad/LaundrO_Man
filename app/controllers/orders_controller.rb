@@ -74,7 +74,6 @@ class OrdersController < ApplicationController
     end
 
     def show
-      @order.status = "pending"
       @message = Message.new
       @messages = @order.messages.includes(:user)
       unless can_view_order?(@order)

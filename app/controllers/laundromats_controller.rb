@@ -32,8 +32,6 @@ class LaundromatsController < ApplicationController
 
   def create
     @laundromat = Laundromat.new(laundromat_params)
-    @laundromat.save
-    redirect_to laundromat_path(@laundromat)
     @laundromat.user = current_user
     if @laundromat.save
       redirect_to laundromat_path(@laundromat)
