@@ -1,28 +1,38 @@
-<%= simple_form_for(@laundromat) do |f| %>
-<div class="d-flex justify-content-around">
-<div class="row">
-  <div class="col">
-    <%= f.input :name %>
-  </div>
-  <div class="col">
-    <%= f.input :address,
-    input_html: {data: {address_autocomplete_target: "address"}, class: "d-none"},
-    wrapper_html: {data: {controller: "address-autocomplete",
-    address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]}}
-    %>
-  </div>
-   <div class="col">
-    <%= f.input :phone_number %>
-  </div>
-  <div id="attach-image">
-    <%= f.input :photos, as: :file, input_html: { multiple: true } %>
-  </div>
-  <div id="create-laundromat">
-    <%= f.submit %>
-  </div>
-  </div>
+<%= simple_form_for(@laundromat, html: { class: "laundromat-form" }) do |f| %>
+  <div class="laundromat-grid">
+    <div>
+      <%= f.input :name, label: "Laundromat Name" %>
+    </div>
+
+    <div class="address-autocomplete-wrapper">
+      <%= f.input :address,
+        label: "Street Address",
+        input_html: {
+          data: { address_autocomplete_target: "address" },
+          class: "d-none"
+        },
+        wrapper_html: {
+          data: {
+            controller: "address-autocomplete",
+            address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]
+          }
+        } %>
+    </div>
+
+    <div>
+      <%= f.input :phone_number, label: "Contact Number" %>
+    </div>
+
+    <div>
+      <%= f.input :photos, as: :file, input_html: { multiple: true }, label: "Upload Images" %>
+    </div>
+
+    <div class="form-submit">
+      <%= f.submit "Create Laundromat", class: "btn btn-primary" %>
+    </div>
+
+    <div class="form-back">
+      <%= link_to "Back to all laundromats", laundromats_path, class: "btn btn-danger" %>
+    </div>
   </div>
 <% end %>
-
-
-<%= link_to "Back to all laundromats", laundromats_path %>
