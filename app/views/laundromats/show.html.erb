@@ -1,40 +1,90 @@
-<h2><%= @laundromat.name %></h2>
-<p><%= @laundromat.address %></p>
-<p><%= @laundromat.phone_number %></p>
-<h2>Book this <%= @laundromat.name %></h2>
-<%= simple_form_for [@laundromat, @order] do |f| %>
-  <%= f.input :pickup_time %>
-  <%= f.submit %>
-<% end %>
+<div class="laundromat-show-container">
+  <!-- Main Content Column -->
+  <div class="main-content">
+    <!-- Header Section -->
+    <div class="laundromat-header">
+      <h1 class="laundromat-title"><%= @laundromat.name %></h1>
+      <div class="laundromat-info">
+        <div class="info-item address-item"><%= @laundromat.address %></div>
+        <div class="info-item phone-item"><%= @laundromat.phone_number %></div>
+      </div>
+    </div>
 
-<%= link_to "Book a Laundry Pickup", new_laundromat_order_path(@laundromat), class: "btn btn-success mt-3" %>
-<% if @orders.exists? %>
-  <h3>Your orders</h3>
-  <ul>
-    <% @orders.each do |order| %>
-      <li><%= link_to order.created_at.strftime("%a %b %e"), order %></li>
+    <!-- Photo Gallery -->
+    <% if @laundromat.photos.any? %>
+      <div class="photo-gallery">
+        <div class="photo-grid">
+          <% @laundromat.photos.each do |photo| %>
+            <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill, class: "laundromat-photo" %>
+          <% end %>
+        </div>
+      </div>
     <% end %>
-  </ul>
-  <% end %>
 
-<% @laundromat.photos.each do |photo| %>
-      <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
+    <!-- Orders Section -->
+    <% if @orders.exists? %>
+      <div class="orders-section">
+        <h3 class="orders-title">Your Orders</h3>
+        <ul class="orders-list">
+          <% @orders.each do |order| %>
+            <li class="order-item">
+              <%= link_to order.created_at.strftime("%a %b %e"), order, class: "order-link" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-<% end %>
-<p><strong>Reviews</strong></p>
-<ul class="list-group">
-  <% @laundromat.reviews.each do |review| %>
-    <%= review.rating %>
-    <li class="list-group-item"><%= review.content %></li>
-  <% end %>
-  <%= link_to "Book This Laundry", new_laundromat_order_path(@laundromat) %><br>
-  <%= link_to "Back to all laundromats", laundromats_path %>
-  <%= link_to "Delete laundromat",
-  laundromat_path(@laundromat),
-  data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
-%>
-<%= simple_form_for [@laundromat, @review] do |f| %>
-  <%= f.input :content %>
-  <%= f.input :rating, collection: (1..5).to_a, label: "Rate your experience", input_html: {data: {controller: "star-rating"}} %>
-  <%= f.submit "Submit review", class: "btn btn-primary" %>
-<% end %>
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+      <h2 class="section-title">Reviews</h2>
+      <ul class="reviews-list">
+        <% @laundromat.reviews.each do |review| %>
+          <li class="review-item">
+            <div class="review-rating"><%= review.rating %>⭐</div>
+            <div class="review-content"><%= review.content %></div>
+          </li>
+        <% end %>
+      </ul>
+
+      <!-- Review Form -->
+      <div class="review-form">
+        <h3 class="review-form-title">Leave a Review</h3>
+        <%= simple_form_for [@laundromat, @review] do |f| %>
+          <div class="form-group">
+            <%= f.input :content, input_html: { class: "form-control" }, label_html: { class: "form-label" } %>
+          </div>
+          <div class="form-group">
+            <%= f.input :rating, collection: (1..5).to_a,
+                input_html: { class: "star-rating", data: { controller: "star-rating" } },
+                label: "Rate your experience", label_html: { class: "form-label" } %>
+          </div>
+          <%= f.submit "Submit Review", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Action Links -->
+    <div class="action-links">
+      <%= link_to "Back to all laundromats", laundromats_path, class: "action-link link-back" %>
+      <%= link_to "Delete laundromat", laundromat_path(@laundromat),
+                  data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                  class: "action-link link-delete" %>
+    </div>
+  </div>
+
+  <!-- Booking Sidebar -->
+  <div class="booking-sidebar">
+    <h2 class="booking-title">Book <%= @laundromat.name %></h2>
+
+    <div class="booking-form">
+      <%= simple_form_for [@laundromat, @order] do |f| %>
+        <div class="form-group">
+          <%= f.input :pickup_time, input_html: { class: "form-control" }, label_html: { class: "form-label" } %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= link_to "Book Now", new_laundromat_order_path(@laundromat), class: "btn btn-success" %>
+  </div>
+</div>

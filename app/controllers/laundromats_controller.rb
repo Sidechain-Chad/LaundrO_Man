@@ -33,8 +33,9 @@ class LaundromatsController < ApplicationController
   def create
     @laundromat = Laundromat.new(laundromat_params)
     @laundromat.user = current_user
+
     if @laundromat.save
-      redirect_to laundromat_path(@laundromat)
+      redirect_to laundromat_path(@laundromat), notice: "Laundromat created successfully!"
     else
       render :new, status: :unprocessable_entity
     end

@@ -16,3 +16,10 @@
 
 @import "orders/orders_new_edit";
 @import "orders/orders_confirm";
+@import "laundromats/_index";
+@import "laundromats/_show";
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
