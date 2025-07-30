@@ -11,6 +11,7 @@
         <div class="card-body">
           <h5 class="card-title">Order #<%= order.id %></h5>
           <p class="card-text font-black">
+            
             <strong>Status:</strong> <%= order.status %><br>
             <strong>Total Price:</strong> R<%= order.total_price %><br>
             <strong>Pickup Time:</strong><%= order.pickup_time ? l(order.pickup_time, format: :short) : "Not scheduled" %><br>
