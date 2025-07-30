@@ -44,17 +44,29 @@
         <%= render "messages/message", message: message, user: current_user %>
       <% end %>
     </div>
-<div id="texts">
-    <%= simple_form_for [@order, @message], html: { class: "d-flex gap-2 align-items-end" } do |f| %>
-      <% other_user = current_user == @order.user ? @order.laundromat.user : @order.user %>
-      <%= f.input :body,
-          label: false,
-          placeholder: "Message #{other_user.first_name}",
-          input_html: { class: "form-control" },
-          wrapper_html: { class: "flex-grow-1 mb-0" }
-      %>
-      <%= f.button :submit, "Send", class: "btn btn-primary mb-3" %>
-    <% end %>
-      </div>
+<div data-controller="message"
+     data-message-user-id-value="<%= current_user.id %>"
+     data-action="turbo:submit-end->message#clear">
+
+  <%= simple_form_for [@order, @message], html: {
+        class: "d-flex gap-2 align-items-end",
+        data: { message_target: "form" }
+      } do |f| %>
+    <% other_user = current_user == @order.user ? @order.laundromat.user : @order.user %>
+    <%= f.input :body,
+        label: false,
+        placeholder: "Message #{other_user.first_name}",
+        input_html: {
+          class: "form-control",
+          data: { message_target: "input" },
+          autocomplete: "off"
+        },
+        wrapper_html: { class: "flex-grow-1 mb-0" }
+    %>
+
+    <%= f.button :submit, "Send", class: "btn btn-primary mb-3" %>
+  <% end %>
+</div>
+
   </div>
 </div>
