@@ -86,12 +86,17 @@
     overflow: hidden;
     background-color: #fff;
     cursor: default;
-    transition: box-shadow 0.25s ease;
+    box-shadow: 0 4px 8px rgba(3, 49, 89, 0.15);
+    transition: transform 0.3s ease;
     max-width: 100%; // card will fill the grid cell width
     height: 100%;    // full height of grid row
 
     &:hover {
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.96);
     }
   }
 
