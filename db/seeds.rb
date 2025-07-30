@@ -93,15 +93,6 @@ owners_data = [
     phone_number: "031 456 7890",
     image_url: "https://media.istockphoto.com/id/1329022730/photo/stack-of-folded-towels-and-detergents-on-white-table-in-bathroom.jpg?s=612x612&w=0&k=20&c=hiH5LkPeRA7eb-AMVRRwww-idqKEkF3ruEfecW7vjto="
   },
-  {
-    email: "owner3@example.com",
-    first_name: "Emma",
-    last_name: "Jones",
-    address: "88 Spin St, Joburg",
-    laundromat_name: "Spin City Laundry",
-    phone_number: "011 987 6543",
-    image_url: "https://media.istockphoto.com/id/857747340/photo/water-splash-of-the-washing-machine-drum.jpg?s=612x612&w=0&k=20&c=gMM1GWjpnuWe28FhH5uyGJ6eTG53R93THOsBrIsZwD8="
-  },
   # New Cape Town laundromats with real addresses
   {
     email: "drwash@example.com",
@@ -155,7 +146,7 @@ owners_data = [
     address: "Main Road, Rondebosch, Cape Town, 7700",
     laundromat_name: "Rondewash Laundry",
     phone_number: "021 689 1234",
-    image_url: "https://media.istockphoto.com/id/1386479313/photo/laundromat-washing-machines-in-a-row.jpg?s=612x612&w=0&k=20&c=myEi6jQZjVMGRz5ZQgJnfpHjKhOqN9ubnmqgKkNxB1I="
+    image_url: "https://cleanvibeslaundry.com/wp-content/uploads/2024/04/Use-A-Laundromat-Like-A-Pro.jpg"
   },
   {
     email: "galleria@example.com",
@@ -164,7 +155,7 @@ owners_data = [
     address: "40 Bromwell Street, Woodstock, Cape Town, 7925",
     laundromat_name: "Galleria Laundry Services",
     phone_number: "021 447 3102",
-    image_url: "https://media.istockphoto.com/id/1419491563/photo/clean-folded-clothes-stacked-in-laundry-basket.jpg?s=612x612&w=0&k=20&c=HrF5M_-LPKrjNV7KJVdnhgqCLF7nwE6jKE7fV4uGtK8="
+    image_url: "https://www.whirlpool.com/content/dam/global/maytag/MAYTAG-CLE_2021-BC1_0985-Edit_2048x1366_72.jpg"
   },
   {
     email: "mybeautiful.seapoint@example.com",
@@ -200,7 +191,7 @@ owners_data = [
     address: "V&A Waterfront, Cape Town, 8001",
     laundromat_name: "Skoon Laundromats - Portside",
     phone_number: "021 419 7890",
-    image_url: "https://media.istockphoto.com/id/1386479313/photo/laundromat-washing-machines-in-a-row.jpg?s=612x612&w=0&k=20&c=myEi6jQZjVMGRz5ZQgJnfpHjKhOqN9ubnmqgKkNxB1I="
+    image_url: "https://tommysudslaundry.com/wp-content/uploads/2024/05/AdobeStock_251076922-scaled-1.jpeg"
   },
   {
     email: "greenlaundry@example.com",
@@ -209,7 +200,7 @@ owners_data = [
     address: "Woodstock, Cape Town",
     laundromat_name: "Green Laundry",
     phone_number: "021 424 3456",
-    image_url: "https://media.istockphoto.com/id/1419491563/photo/clean-folded-clothes-stacked-in-laundry-basket.jpg?s=612x612&w=0&k=20&c=HrF5M_-LPKrjNV7KJVdnhgqCLF7nwE6jKE7fV4uGtK8="
+    image_url: "https://i.pinimg.com/736x/64/77/33/64773343294924540bba4bdc805b069f.jpg"
   },
   {
     email: "freshclean@example.com",
