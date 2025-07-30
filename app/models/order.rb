@@ -9,6 +9,8 @@ class Order < ApplicationRecord
 
   accepts_nested_attributes_for :order_items, allow_destroy: true
 
+  validates :status, presence: true
+
   after_initialize :set_default_status, if: :new_record?
 
   def set_default_status

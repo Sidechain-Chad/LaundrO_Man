@@ -74,12 +74,10 @@ class OrdersController < ApplicationController
     end
 
     def show
-      @order.status = "pending"
       @message = Message.new
       @messages = @order.messages.includes(:user)
       unless can_view_order?(@order)
         return redirect_to orders_path, alert: "You are not authorized to view this order."
-
       @laundromat = @order.laundromat
       @order_items = @order.order_items
       @tracking_updates = @order.order_trackings.order(:created_at)
