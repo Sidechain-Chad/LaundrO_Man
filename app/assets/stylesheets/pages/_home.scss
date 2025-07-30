@@ -1,1 +1,42 @@
 // Specific CSS for your home-page
+
+body, h1, h2, h3, h4, h5, h6, p, a, button, input, textarea {
+  font-family: 'Fredoka', sans-serif;
+}
+
+h1, h2, h3 {
+  font-weight: 350;
+}
+
+.btn-transparent {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  i {
+    font-size: 1.1rem;
+  }
+
+  &:hover {
+    background-color: white;
+    color: #033159; // matches your navbar background for contrast
+    text-decoration: none;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+body, html {
+  margin: 0;
+  padding: 0;
+}

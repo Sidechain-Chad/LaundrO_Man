@@ -7,7 +7,11 @@ Rails.application.routes.draw do
   resources :laundromats do
     resources :orders, only: [:new, :create]
     resources :reviews, only: [:new, :create]
-    resources :chats, only: [:show, :create]
+
+    resources :messages, only: [:show, :create]
+  end
+  resources :orders do
+    resources :messages, only: [:create]
   end
 
   resources :orders, only: [:index, :show, :edit, :update] do

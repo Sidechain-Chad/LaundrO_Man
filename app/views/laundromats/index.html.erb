@@ -1,49 +1,50 @@
-<!--<Search Bar-->
+<div class="page-laundromats">
 
-<div class="row justify-content-center">
-  <div class="col-sm-8 my-3">
-    <%= form_with url: laundromats_path, method: :get, class: "d-flex" do %>
-      <%= text_field_tag :query,
-            params[:query],
-            class: "form-control",
-            placeholder: "Type a keyword"
-        %>
-      <%= submit_tag "Search", name: "", class: "btn btn-primary" %>
+  <div class="lm-header">
+    <%= form_with url: laundromats_path, method: :get, class: "lm-search-form", local: true do %>
+      <div class="lm-search-wrapper">
+        <%= text_field_tag :query, params[:query], class: "lm-search-input", placeholder: "Search laundromats..." %>
+        <button type="submit" class="lm-search-icon">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
     <% end %>
   </div>
-  <!--Index-->
 
-  <div class="button"><%= link_to "Book laundromat", new_laundromat_path, class: "btn btn-primary" %></div>
+  <div class="lm-container">
+    <!-- Left Side - Cards -->
+    <div class="lm-content-side">
+      <div class="lm-scrollable-content">
+        <div class="lm-grid">
+          <% @laundromats.each do |laundromat| %>
+            <div class="lm-card">
+              <% if laundromat.photos.attached? %>
+                <%= cl_image_tag laundromat.photos.first.key, class: "lm-card-image" %>
+              <% else %>
+                <div class="lm-card-image lm-no-photo">No photo</div>
+              <% end %>
 
-  <div class="row">
-    <div class="col-md-7">
-      <div class="laundromat-grid">
-      <% @laundromats.each do |laundromat| %>
-        <div class="card-product mb-3">
-          <% if laundromat.photos.attached? %>
-            <% laundromat.photos.each do |photo| %>
-          <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
-        <% end %>
-      <% else %>
-        <p>No photos available</p>
-      <% end %>
-        <div class="card-product-infos">
-          <h2><%= link_to laundromat.name, laundromat_path(laundromat) %></h2>
-          <p><%= laundromat.address %></p>
-          <p>Product description with <strong>relevant info</strong> only.</p>
+              <div class="lm-card-content">
+                <h3 class="lm-card-name"><%= laundromat.name %></h3>
+                <p class="lm-card-address"><%= laundromat.address %></p>
+                <%= link_to "View Laundromat", laundromat_path(laundromat), class: "lm-view-button" %>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
           <% end %>
     </div>
+
+
+    <!-- Right Side - Map -->
+    <div class="lm-map-side">
+      <div class="lm-map-container"
+           data-controller="map"
+           data-map-markers-value="<%= @markers.to_json %>"
+           data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+      </div>
+    </div>
   </div>
 
- <div class="col-md-5">
-  <div class="sticky-top">
-    <div style="width: 100%; height: 600px;"
-      data-controller="map"
-      data-map-markers-value="<%= @markers.to_json %>"
-      data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
-    </div>
-    </div>
-  </div>
 </div>

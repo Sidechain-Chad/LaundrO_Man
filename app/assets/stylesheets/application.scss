@@ -13,3 +13,14 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+@import "orders/orders_new_edit";
+@import "orders/orders_confirm";
+@import "laundromats/_index";
+@import "laundromats/_show";
+@import "laundromats/_new";
+
+body, html {
+  margin: 0;
+  padding: 0;
+}

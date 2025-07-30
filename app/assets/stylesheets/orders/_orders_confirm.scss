@@ -1,0 +1,171 @@
+body, h1, h2, h3, h4, h5, h6, p, a, button, input, textarea {
+  font-family: 'Fredoka', sans-serif;
+}
+
+.order-confirmation-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.order-summary {
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  background: #f9f9f9;
+  border: 1px solid #e3e3e3;
+  border-radius: 0.75rem;
+
+  h2 {
+    margin-top: 0;
+    font-size: 1.25rem;
+  }
+
+  .order-items-list {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      padding: 0.25rem 0;
+      border-bottom: 1px dashed #ccc;
+    }
+  }
+
+  .total-price {
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+}
+
+.order-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-actions {
+  margin-top: 2rem;
+
+  .btn {
+    padding: 0.6rem 1.25rem;
+  }
+}
+
+.order-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+
+  .btn {
+    flex: 1;
+    margin-right: 1rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+/* Confirm button: green */
+.confirm-btn {
+  background-color: #28a745; /* green */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 3px solid #28a745;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+/* Edit button */
+.edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid #007bff; /* blue */
+  color: #007bff;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  i {
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background-color: #007bff;
+    color: white;
+  }
+
+  &:focus-visible {
+    outline: 3px solid #007bff;
+    outline-offset: 2px;
+  }
+}
+
+/* Cancel button */
+.cancel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid #d9534f; /* red */
+  color: #d9534f;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  i {
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background-color: #d9534f;
+    color: white;
+  }
+
+  &:focus-visible {
+    outline: 3px solid #d9534f;
+    outline-offset: 2px;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+// Split the edit & cancel buttons in half and place them side-by-side
+.order-links.half-split {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  gap: 1rem;
+
+  a {
+    flex: 1;
+    text-align: center;
+  }
+}

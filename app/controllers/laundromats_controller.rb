@@ -1,6 +1,7 @@
 class LaundromatsController < ApplicationController
   def index
     @laundromats = Laundromat.all
+
     @markers = @laundromats.geocoded.map do |laundromat|
       {
         lat: laundromat.latitude,
@@ -18,6 +19,10 @@ class LaundromatsController < ApplicationController
   def show
     @laundromat = Laundromat.find(params[:id])
     @reviews = @laundromat.reviews.includes(:user)
+    @review = Review.new
+    @order = Order.new
+    @orders = @laundromat.orders.where(user: current_user)
+    @message = Message.new
     @review = @laundromat.reviews.new
   end
 
@@ -28,8 +33,9 @@ class LaundromatsController < ApplicationController
   def create
     @laundromat = Laundromat.new(laundromat_params)
     @laundromat.user = current_user
+
     if @laundromat.save
-      redirect_to laundromat_path(@laundromat)
+      redirect_to laundromat_path(@laundromat), notice: "Laundromat created successfully!"
     else
       render :new, status: :unprocessable_entity
     end

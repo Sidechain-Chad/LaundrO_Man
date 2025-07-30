@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema[7.1].define(version: 2025_07_26_102511) do
+=======
+ActiveRecord::Schema[7.1].define(version: 2025_07_29_215443) do
+>>>>>>> master
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +59,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_26_102511) do
     t.index ["user_id"], name: "index_laundromats_on_user_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text "body"
+    t.bigint "user_id", null: false
+    t.bigint "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_messages_on_order_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.bigint "order_id", null: false
     t.string "item_type"
@@ -79,10 +93,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_26_102511) do
     t.bigint "laundromat_id", null: false
     t.datetime "pickup_time"
     t.datetime "delivery_time"
-    t.string "status"
     t.decimal "total_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
     t.index ["laundromat_id"], name: "index_orders_on_laundromat_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -96,6 +110,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_26_102511) do
     t.integer "rating"
     t.index ["laundromat_id"], name: "index_reviews_on_laundromat_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
+  create_table "solid_cable_messages", force: :cascade do |t|
+    t.text "channel"
+    t.text "payload"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel"], name: "index_solid_cable_messages_on_channel"
+    t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
   create_table "users", force: :cascade do |t|
@@ -117,6 +140,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_26_102511) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "laundromats", "users"
+  add_foreign_key "messages", "orders"
+  add_foreign_key "messages", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_trackings", "orders"
   add_foreign_key "orders", "laundromats"

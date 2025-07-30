@@ -1,0 +1,151 @@
+.page-laundromats {
+  .lm-header {
+    padding: 1rem 2rem;
+    background: transparent;
+    z-index: 10;
+    position: sticky;
+    top: 0;
+  }
+
+  .lm-search-form {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .lm-search-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .lm-search-input {
+    flex: 1;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    background: transparent;
+    outline: none;
+    color: #033159;
+  }
+
+  .lm-search-icon {
+    padding: 0 1rem;
+    background: none;
+    border: none;
+    color: #033159;
+    font-size: 1.2rem;
+    cursor: pointer;
+
+    i {
+      pointer-events: none;
+    }
+  }
+
+  .lm-container {
+    display: flex;
+    height: calc(100vh - 80px);
+  }
+
+  .lm-content-side {
+    flex: 1.5;
+    overflow-y: auto;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+  }
+
+  .lm-map-side {
+    flex: 1.1;
+    padding: 1rem;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .lm-map-container {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+
+  .lm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-auto-rows: 1fr; // Make all rows equal height
+    gap: 1.5rem;
+  }
+
+  .lm-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    background-color: #fff;
+    cursor: default;
+    box-shadow: 0 4px 8px rgba(3, 49, 89, 0.15);
+    transition: transform 0.3s ease;
+    max-width: 100%; // card will fill the grid cell width
+    height: 100%;    // full height of grid row
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+
+  .lm-card-image {
+    flex-shrink: 0;  // image height fixed
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .lm-card-content {
+    flex-grow: 1;    // take remaining space to align buttons at bottom
+    padding: 1.25rem 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .lm-card-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #033159;
+    margin: 0;
+  }
+
+  .lm-card-address {
+    font-size: 1rem;
+    color: #555;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .lm-view-button {
+    align-self: flex-start;
+    margin-top: auto;  // push button to bottom of content
+    background-color: transparent;
+    color: #033159;
+    border: 2px solid #033159;
+    padding: 0.35rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background-color: #033159;
+      color: #fff;
+    }
+  }
+}

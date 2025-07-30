@@ -1,20 +1,71 @@
-<h1>Your Orders</h1>
+<div class="container my-5">
 
-<p><%= link_to "Browse Laundromats", laundromats_path %></p>
-
-<% @orders.each do |order| %>
-  <div>
-    <p><strong>Order ID:</strong> <%= order.id %></p>
-    <p><strong>Status:</strong> <%= order.status %></p>
-    <p><strong>Total Price:</strong> R<%= order.total_price %></p>
-    <p><strong>Pickup Time:</strong> <%= order.pickup_time %></p>
-    <p><strong>Delivery Time:</strong> <%= order.delivery_time %></p>
-    <p><%= link_to 'View Order', order_path(order) %></p>
-    <% if order.status == "pending" %>
-      <%= form_with url: cancel_order_path(order), method: :patch do %>
-  <%= submit_tag "Cancel Order" %>
-<% end %>
-    <% end %>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Your Orders</h1>
+    <%= link_to "Browse Laundromats", laundromats_path, class: "btn btn-outline-primary" %>
   </div>
-  <hr>
-<% end %>
+
+  <% if @orders.any? %>
+    <% @orders.each do |order| %>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Order #<%= order.id %></h5>
+          <p class="card-text font-black">
+            
+            <strong>Status:</strong> <%= order.status %><br>
+            <strong>Total Price:</strong> R<%= order.total_price %><br>
+            <strong>Pickup Time:</strong><%= order.pickup_time ? l(order.pickup_time, format: :short) : "Not scheduled" %><br>
+            <strong>Delivery Time:</strong><%= order.delivery_time ? l(order.delivery_time, format: :short) : "Not scheduled" %><br></p>
+
+          <div class="d-flex gap-2">
+            <%= link_to 'View Order', order_path(order), class: "btn btn-sm btn-primary" %>
+            <% if order.status == "pending" %>
+              <%= form_with url: cancel_order_path(order), method: :patch, class: "d-inline" do %>
+                <%= submit_tag "Cancel Order", class: "btn btn-sm btn-danger" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-muted">You don't have any active orders yet.</p>
+  <% end %>
+
+  <% if @bags.any? %>
+    <h2 class="mt-5">Client Deliveries</h2>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered mt-3">
+        <thead class="table-light">
+          <tr>
+            <th>Laundromat</th>
+            <th>Status</th>
+            <th>Pickup</th>
+            <th>Delivery</th>
+            <th>Total (ZAR)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @bags.each do |order| %>
+            <tr>
+              <td><%= order.laundromat.name %></td>
+              <td><%= order.status.try(:capitalize) || "N/A" %></td>
+              <td><%= order.pickup_time.present? ? l(order.pickup_time, format: :short) : "N/A" %></td>
+              <td><%= order.delivery_time.present? ? l(order.delivery_time, format: :short) : "N/A" %></td>
+              <td>R<%= order.total_price %></td>
+              <td>
+                <%= link_to "View", order_path(order), class: "btn btn-sm btn-outline-primary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="alert alert-info mt-4" role="alert">
+      You have no deliveries yet.
+    </div>
+  <% end %>
+</div>
