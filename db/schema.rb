@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema[7.1].define(version: 2025_07_26_102511) do
-=======
-ActiveRecord::Schema[7.1].define(version: 2025_07_29_215443) do
->>>>>>> master
+ActiveRecord::Schema[7.1].define(version: 2025_07_29_213103) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -93,10 +89,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_29_215443) do
     t.bigint "laundromat_id", null: false
     t.datetime "pickup_time"
     t.datetime "delivery_time"
+    t.integer "status", default: 0
     t.decimal "total_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status", default: 0
     t.index ["laundromat_id"], name: "index_orders_on_laundromat_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
