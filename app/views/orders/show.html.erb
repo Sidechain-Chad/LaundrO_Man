@@ -58,15 +58,16 @@
     <%= link_to "Back to Orders", orders_path, class: "btn peach-button" %>
   </div>
 
-  <div class="card shadow p-4">
+  <div class="card shadow p-4" style="background-color:rgb(196, 208, 224);">
     <h2 class="mb-3">Order Chat</h2>
-    <div id="messages" class="messages" style="max-height: 300px; overflow-y: auto;">
+    <div id="messages" class="messages p-2" style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; border-radius: 10px; background-color:hsl(0, 0.00%, 100.00%);">
       <%= turbo_stream_from "order_#{@order.id}_messages" %>
       <% @messages.each do |message| %>
         <%= render "messages/message", message: message, user: current_user %>
       <% end %>
     </div>
-<div data-controller="message"
+<div class="mt-2 "
+     data-controller="message"
      data-message-user-id-value="<%= current_user.id %>"
      data-action="turbo:submit-end->message#clear">
 
@@ -80,10 +81,11 @@
         placeholder: "Message #{other_user.first_name}",
         input_html: {
           class: "form-control",
+          style: "background-color:rgb(255, 255, 255);",
           data: { message_target: "input" },
           autocomplete: "off"
         },
-        wrapper_html: { class: "flex-grow-1 mb-0" }
+        wrapper_html: { class: "flex-grow-1 mb-0 bg-white" }
     %>
 
     <%= f.button :submit, "Send", class: "btn btn-primary mb-3" %>
