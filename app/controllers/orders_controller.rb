@@ -46,11 +46,12 @@ class OrdersController < ApplicationController
 
     if @order.update(confirm_order_params.merge(status: "pending"))
       @order.update(total_price: calculate_total_price(@order.order_items))
-      redirect_to orders_path, notice: "Order Processed!"
-        else
+      redirect_to order_path(@order), notice: "Order Processed!"
+    else
       redirect_to confirmation_order_path(@order), alert: "Failed to confirm order."
-        end
     end
+  end
+
 
     def edit
       @laundromat = @order.laundromat
