@@ -82,6 +82,7 @@ class OrdersController < ApplicationController
       @order_items = @order.order_items
       @tracking_updates = @order.order_trackings.order(:created_at)
       end
+
     end
 
     def cancel
@@ -118,7 +119,7 @@ class OrdersController < ApplicationController
     end
 
     def calculate_total_price(order_items)
-      order_items.map { |item| item.quantity.to_i * item.price.to_f }.sum
+      order_items.map { |item| item.price.to_f }.sum
     end
 
     def can_view_order?(order)

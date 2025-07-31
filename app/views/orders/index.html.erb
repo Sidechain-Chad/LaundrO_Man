@@ -11,8 +11,9 @@
         <div class="card-body">
           <h5 class="card-title">Order #<%= order.id %></h5>
           <p class="card-text font-black">
-            
+
             <strong>Status:</strong> <%= order.status %><br>
+            <strong>Laundromat:</strong> <%= order.laundromat.name %><br>
             <strong>Total Price:</strong> R<%= order.total_price %><br>
             <strong>Pickup Time:</strong><%= order.pickup_time ? l(order.pickup_time, format: :short) : "Not scheduled" %><br>
             <strong>Delivery Time:</strong><%= order.delivery_time ? l(order.delivery_time, format: :short) : "Not scheduled" %><br></p>
@@ -21,7 +22,8 @@
             <%= link_to 'View Order', order_path(order), class: "btn btn-sm btn-primary" %>
             <% if order.status == "pending" %>
               <%= form_with url: cancel_order_path(order), method: :patch, class: "d-inline" do %>
-                <%= submit_tag "Cancel Order", class: "btn btn-sm btn-danger" %>
+                <%= submit_tag "Cancel Order", class: "btn btn-sm btn-danger", data: { turbo: false },
+                onclick: "return confirm('Are you sure you want to delete this order?')"  %>
               <% end %>
             <% end %>
           </div>
