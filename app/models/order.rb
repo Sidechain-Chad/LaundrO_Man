@@ -4,6 +4,7 @@ class Order < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :order_items, dependent: :destroy
   has_many :order_trackings, dependent: :destroy
+  has_many :messages, dependent: :destroy
 
   enum status: { unconfirmed: 0, pending: 1, processing: 2, in_transit: 3, delivered: 4, cancelled: 5 }
 
