@@ -127,4 +127,4 @@ class OrdersController < ApplicationController
         order.user == current_user ||
         order.laundromat.user_id == current_user.id
     end
-  end
+end
